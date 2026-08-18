@@ -21,10 +21,10 @@ interface Props {
   field: FieldDef;
   value: unknown;
   onChange: (v: unknown) => void;
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Usuário autorizado a ver dados pessoais não pseudonimizados. */
   podeVerPII: boolean;
-  invalid?: boolean;
+  invalid?: boolean | undefined;
 }
 
 export function FieldInput({ field, value, onChange, disabled, podeVerPII, invalid }: Props) {
@@ -100,7 +100,7 @@ export function FieldInput({ field, value, onChange, disabled, podeVerPII, inval
       )}
 
       {field.type === "select" && (
-        <Select value={(value as string) ?? ""} disabled={disabled} onValueChange={onChange}>
+        <Select value={(value as string) ?? ""} disabled={disabled ?? false} onValueChange={onChange}>
           <SelectTrigger id={field.id} aria-invalid={invalid}>
             <SelectValue placeholder="Selecione…" />
           </SelectTrigger>
@@ -116,7 +116,7 @@ export function FieldInput({ field, value, onChange, disabled, podeVerPII, inval
 
       {field.type === "bool" && (
         <div className={cn("flex items-center gap-3 rounded-sm border border-border bg-surface px-3 py-2.5", invalid && "border-destructive")}>
-          <Switch id={field.id} checked={value === true} disabled={disabled} onCheckedChange={(c) => onChange(c)} />
+          <Switch id={field.id} checked={value === true} disabled={disabled ?? false} onCheckedChange={(c) => onChange(c)} />
           <span className="text-sm text-foreground">{value === true ? "Sim" : value === false ? "Não" : "Não informado"}</span>
           {value === undefined && !disabled && (
             <Button type="button" variant="ghost" size="sm" className="ml-auto text-xs" onClick={() => onChange(false)}>
@@ -127,7 +127,7 @@ export function FieldInput({ field, value, onChange, disabled, podeVerPII, inval
       )}
 
       {field.type === "list" && (
-        <DynamicList field={field} value={Array.isArray(value) ? (value as Record<string, string>[]) : []} onChange={onChange} disabled={disabled} invalid={invalid} />
+        <DynamicList field={field} value={Array.isArray(value) ? (value as Record<string, string>[]) : []} onChange={onChange} disabled={disabled ?? false} invalid={invalid} />
       )}
 
       {help}
@@ -145,8 +145,8 @@ function DynamicList({
   field: FieldDef;
   value: Record<string, string>[];
   onChange: (v: unknown) => void;
-  disabled?: boolean;
-  invalid?: boolean;
+  disabled?: boolean | undefined;
+  invalid?: boolean | undefined;
 }) {
   const itens = field.itemFields ?? [];
 
@@ -182,7 +182,7 @@ function DynamicList({
                   {f.label}
                 </Label>
                 {f.type === "select" ? (
-                  <Select value={item[f.id] ?? ""} disabled={disabled} onValueChange={(v) => setItem(idx, f.id, v)}>
+                  <Select value={item[f.id] ?? ""} disabled={disabled ?? false} onValueChange={(v) => setItem(idx, f.id, v)}>
                     <SelectTrigger id={`${field.id}-${idx}-${f.id}`}>
                       <SelectValue placeholder="Selecione…" />
                     </SelectTrigger>
@@ -195,13 +195,13 @@ function DynamicList({
                     </SelectContent>
                   </Select>
                 ) : f.type === "textarea" ? (
-                  <Textarea id={`${field.id}-${idx}-${f.id}`} rows={2} value={item[f.id] ?? ""} disabled={disabled} onChange={(e) => setItem(idx, f.id, e.target.value)} />
+                  <Textarea id={`${field.id}-${idx}-${f.id}`} rows={2} value={item[f.id] ?? ""} disabled={disabled ?? false} onChange={(e) => setItem(idx, f.id, e.target.value)} />
                 ) : (
                   <Input
                     id={`${field.id}-${idx}-${f.id}`}
                     type={f.type === "datetime" ? "datetime-local" : f.type === "date" ? "date" : "text"}
                     value={item[f.id] ?? ""}
-                    disabled={disabled}
+                    disabled={disabled ?? false}
                     onChange={(e) => setItem(idx, f.id, e.target.value)}
                   />
                 )}
