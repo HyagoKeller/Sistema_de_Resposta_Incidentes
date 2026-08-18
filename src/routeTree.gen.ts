@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PainelRouteImport } from './routes/painel'
 import { Route as IncidentesIndexRouteImport } from './routes/incidentes.index'
+import { Route as IncidentesNovoRouteImport } from './routes/incidentes.novo'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,34 +29,43 @@ const IncidentesIndexRoute = IncidentesIndexRouteImport.update({
   path: '/incidentes/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IncidentesNovoRoute = IncidentesNovoRouteImport.update({
+  id: '/incidentes/novo',
+  path: '/incidentes/novo',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/painel': typeof PainelRoute
+  '/incidentes/novo': typeof IncidentesNovoRoute
   '/incidentes/': typeof IncidentesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/painel': typeof PainelRoute
+  '/incidentes/novo': typeof IncidentesNovoRoute
   '/incidentes': typeof IncidentesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/painel': typeof PainelRoute
+  '/incidentes/novo': typeof IncidentesNovoRoute
   '/incidentes/': typeof IncidentesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/painel' | '/incidentes/'
+  fullPaths: '/' | '/painel' | '/incidentes/novo' | '/incidentes/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/painel' | '/incidentes'
-  id: '__root__' | '/' | '/painel' | '/incidentes/'
+  to: '/' | '/painel' | '/incidentes/novo' | '/incidentes'
+  id: '__root__' | '/' | '/painel' | '/incidentes/novo' | '/incidentes/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PainelRoute: typeof PainelRoute
+  IncidentesNovoRoute: typeof IncidentesNovoRoute
   IncidentesIndexRoute: typeof IncidentesIndexRoute
 }
 
@@ -82,12 +92,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IncidentesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/incidentes/novo': {
+      id: '/incidentes/novo'
+      path: '/incidentes/novo'
+      fullPath: '/incidentes/novo'
+      preLoaderRoute: typeof IncidentesNovoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PainelRoute: PainelRoute,
+  IncidentesNovoRoute: IncidentesNovoRoute,
   IncidentesIndexRoute: IncidentesIndexRoute,
 }
 export const routeTree = rootRouteImport
