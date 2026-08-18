@@ -52,119 +52,120 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="relative min-h-screen gov-deep text-primary-foreground">
+    <div className="relative flex min-h-screen flex-col items-center justify-center gov-deep text-primary-foreground">
       <div className="absolute inset-0 gov-grid opacity-60" aria-hidden />
-      <div className="h-1.5 gov-stripe" aria-hidden />
+      <div className="fixed top-0 left-0 right-0 h-1.5 gov-stripe" aria-hidden />
 
-      <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-5 py-14 lg:grid-cols-[1.05fr_0.95fr] lg:py-24">
-        <section>
-          <div className="flex items-center gap-4">
-            <div className="relative overflow-hidden rounded-sm shadow-gov-lg">
-              <img
-                src={aguLogo.url}
-                alt="Brasão da Advocacia-Geral da União"
-                className="h-14 w-auto"
-                width={112}
-                height={56}
-              />
-              <div
-                className="pointer-events-none absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(135deg, oklch(0.42 0.15 263 / 0.35) 0%, oklch(0.32 0.12 263 / 0.15) 50%, transparent 100%)",
-                  mixBlendMode: "multiply",
-                }}
-                aria-hidden
-              />
-            </div>
-            <div className="border-l border-primary-foreground/25 pl-4">
-              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary-foreground/70">
-                Advocacia-Geral da União
-              </p>
-              <p className="text-[11px] uppercase tracking-[0.18em] text-primary-foreground/50">
-                Departamento de Segurança da Informação
-              </p>
-            </div>
+      <div className="relative z-10 mx-auto w-full max-w-lg px-5 py-12">
+        <section className="text-center">
+          <div className="relative mx-auto inline-flex overflow-hidden rounded-sm">
+            <img
+              src={aguLogo.url}
+              alt="Brasão da Advocacia-Geral da União"
+              className="h-16 w-auto"
+              width={128}
+              height={64}
+            />
+            <div
+              className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary to-primary-dark"
+              style={{ mixBlendMode: "color", opacity: 0.92 }}
+              aria-hidden
+            />
           </div>
 
-          <h1 className="mt-9 text-4xl font-extrabold leading-[1.08] tracking-tight text-primary-foreground sm:text-5xl">
-            Sistema de Resposta
-            <span className="block text-warning">a Incidentes</span>
+          <div className="mt-4 space-y-0.5">
+            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary-foreground/70">
+              Advocacia-Geral da União
+            </p>
+            <p className="text-[11px] uppercase tracking-[0.18em] text-primary-foreground/50">
+              Departamento de Segurança da Informação
+            </p>
+          </div>
+
+          <h1 className="mt-6 text-3xl font-extrabold leading-tight tracking-tight text-primary-foreground sm:text-4xl">
+            Sistema de Resposta <span className="text-warning">a Incidentes</span>
           </h1>
 
-          <p className="mt-5 max-w-xl text-sm leading-relaxed text-primary-foreground/75">
-            Ambiente institucional para registro, condução e documentação de incidentes de Segurança da Informação e
-            Privacidade, em conformidade com o Plano de Resposta a Incidentes (PRI/AGU), o art. 48 da LGPD e a
-            Resolução CD/ANPD nº 2/2022.
-          </p>
-
-          <dl className="mt-10 grid max-w-xl gap-4 sm:grid-cols-3">
-            {[
-              { icon: ShieldCheck, k: "7 fases", v: "Checklist com transição validada" },
-              { icon: ScrollText, k: "Art. 48", v: "Formulário ANPD pré-preenchido" },
-              { icon: Activity, k: "24h / 3 dias", v: "SLAs de DPO e ANPD monitorados" },
-            ].map(({ icon: Icon, k, v }) => (
-              <div key={k} className="rounded-sm border border-primary-foreground/15 bg-primary-foreground/[0.06] p-4 backdrop-blur-sm">
-                <Icon className="size-5 text-warning" aria-hidden />
-                <dt className="mt-3 text-sm font-bold text-primary-foreground">{k}</dt>
-                <dd className="mt-0.5 text-xs leading-snug text-primary-foreground/65">{v}</dd>
-              </div>
-            ))}
-          </dl>
-
-          <p className="mt-9 flex items-start gap-2 text-xs text-primary-foreground/55">
-            <Lock className="mt-0.5 size-3.5 shrink-0" aria-hidden />
-            Acesso monitorado e registrado em trilha de auditoria. Ambiente de demonstração — não insira dados reais de
-            titulares (RNF-014).
+          <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-primary-foreground/75">
+            Registro, condução e documentação de incidentes de Segurança da Informação e Privacidade, em conformidade
+            com o PRI/AGU, o art. 48 da LGPD e a Resolução CD/ANPD nº 2/2022.
           </p>
         </section>
 
-        <section className="overflow-hidden rounded-md border border-border bg-surface text-foreground shadow-gov-lg">
-          <div className="h-1.5 gov-stripe" aria-hidden />
-          <div className="p-7">
-            <h2 className="text-lg font-bold text-primary-dark">Acesso institucional</h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              O perfil de acesso é atribuído automaticamente pelos grupos do diretório corporativo após a autenticação.
+        <dl className="mt-6 grid gap-3 sm:grid-cols-3">
+          {[
+            { icon: ShieldCheck, k: "7 fases", v: "Checklist validado" },
+            { icon: ScrollText, k: "Art. 48", v: "ANPD pré-preenchido" },
+            { icon: Activity, k: "24h / 3 dias", v: "SLAs monitorados" },
+          ].map(({ icon: Icon, k, v }) => (
+            <div
+              key={k}
+              className="rounded-sm border border-primary-foreground/10 bg-primary-foreground/[0.05] p-3 text-center backdrop-blur-sm"
+            >
+              <Icon className="mx-auto size-4 text-warning" aria-hidden />
+              <dt className="mt-2 text-xs font-bold text-primary-foreground">{k}</dt>
+              <dd className="mt-0.5 text-[11px] leading-snug text-primary-foreground/60">{v}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <section className="mt-6 overflow-hidden rounded-md border border-primary-foreground/10 bg-primary-foreground/[0.04] shadow-gov backdrop-blur-md">
+          <div className="h-1 gov-stripe" aria-hidden />
+          <div className="p-5">
+            <h2 className="text-center text-base font-bold text-primary-foreground">Acesso institucional</h2>
+            <p className="mt-1 text-center text-xs text-primary-foreground/65">
+              O perfil é atribuído automaticamente pelos grupos do diretório corporativo após a autenticação.
             </p>
 
-            <Tabs defaultValue="sso" className="mt-6">
+            <Tabs defaultValue="sso" className="mt-5">
               <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="sso">SSO Microsoft 365</TabsTrigger>
+                <TabsTrigger value="sso">Microsoft 365</TabsTrigger>
                 <TabsTrigger value="local">Conta local</TabsTrigger>
               </TabsList>
 
-              <TabsContent value="sso" className="space-y-4 pt-5">
-                <p className="text-sm text-muted-foreground">
+              <TabsContent value="sso" className="space-y-3 pt-4">
+                <p className="text-xs text-primary-foreground/70">
                   Autenticação federada via Azure AD (OAuth2/OIDC) com escopos mínimos{" "}
-                  <code className="text-xs">openid profile email User.Read</code>.
+                  <code className="text-[10px]">openid profile email User.Read</code>.
                 </p>
-                <Button className="w-full" size="lg" onClick={() => entrar("SSO Microsoft 365", "Servidor AGU")}>
+                <Button className="w-full" size="default" onClick={() => entrar("SSO Microsoft 365", "Servidor AGU")}>
                   <KeyRound className="size-4" aria-hidden /> Entrar com Microsoft 365
                   <ArrowRight className="size-4" aria-hidden />
                 </Button>
               </TabsContent>
 
-              <TabsContent value="local" className="space-y-4 pt-5">
+              <TabsContent value="local" className="space-y-3 pt-4">
                 {!etapaMfa ? (
                   <>
-                    <div className="space-y-2">
-                      <Label htmlFor="usuario">Usuário Rede AGU</Label>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="usuario" className="text-xs">
+                        Usuário Rede AGU
+                      </Label>
                       <Input
                         id="usuario"
                         value={usuario}
                         onChange={(e) => setUsuario(e.target.value)}
                         placeholder="ex.: joao.silva"
                         autoComplete="username"
+                        className="h-9"
                       />
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="senha">Senha</Label>
-                      <Input id="senha" type="password" autoComplete="current-password" placeholder="••••••••••" />
+                    <div className="space-y-1.5">
+                      <Label htmlFor="senha" className="text-xs">
+                        Senha
+                      </Label>
+                      <Input
+                        id="senha"
+                        type="password"
+                        autoComplete="current-password"
+                        placeholder="••••••••••"
+                        className="h-9"
+                      />
                     </div>
-                    {erro && <p className="text-sm font-medium text-destructive">{erro}</p>}
+                    {erro && <p className="text-xs font-medium text-destructive">{erro}</p>}
                     <Button
                       className="w-full"
-                      size="lg"
+                      size="default"
                       onClick={() => {
                         if (!usuario.trim()) {
                           setErro("Informe o usuário para continuar.");
@@ -176,25 +177,30 @@ export default function LoginPage() {
                     >
                       Continuar
                     </Button>
-                    <p className="text-xs text-muted-foreground">
-                      Senha forte, expiração periódica, bloqueio por tentativas e troca obrigatória no primeiro acesso
-                      (RF-012).
+                    <p className="text-[11px] text-primary-foreground/55">
+                      Senha forte, expiração periódica, bloqueio por tentativas e troca obrigatória no primeiro acesso.
                     </p>
                   </>
                 ) : (
                   <>
-                    <div className="flex items-center gap-2 rounded-sm border border-border bg-muted p-3 text-sm">
-                      <Smartphone className="size-4 text-primary" aria-hidden />
+                    <div className="flex items-center gap-2 rounded-sm border border-primary-foreground/10 bg-primary-foreground/[0.05] p-2.5 text-xs">
+                      <Smartphone className="size-4 text-warning" aria-hidden />
                       Informe o código de 6 dígitos do seu autenticador (TOTP).
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="totp">Código MFA</Label>
-                      <Input id="totp" inputMode="numeric" maxLength={6} placeholder="000000" />
+                    <div className="space-y-1.5">
+                      <Label htmlFor="totp" className="text-xs">
+                        Código MFA
+                      </Label>
+                      <Input id="totp" inputMode="numeric" maxLength={6} placeholder="000000" className="h-9" />
                     </div>
-                    <Button className="w-full" size="lg" onClick={() => entrar("Conta local + MFA", usuario || "Usuário local")}>
+                    <Button
+                      className="w-full"
+                      size="default"
+                      onClick={() => entrar("Conta local + MFA", usuario || "Usuário local")}
+                    >
                       Validar e entrar
                     </Button>
-                    <Button variant="ghost" className="w-full" onClick={() => setEtapaMfa(false)}>
+                    <Button variant="ghost" className="w-full" size="sm" onClick={() => setEtapaMfa(false)}>
                       Voltar
                     </Button>
                   </>
@@ -202,12 +208,18 @@ export default function LoginPage() {
               </TabsContent>
             </Tabs>
 
-            <div className="mt-6 flex flex-wrap items-center justify-between gap-2 border-t border-border pt-4 text-xs text-muted-foreground">
+            <div className="mt-5 flex flex-wrap items-center justify-between gap-2 border-t border-primary-foreground/10 pt-3 text-[11px] text-primary-foreground/55">
               <span>Suporte: AGU Serviços</span>
-              <span>Esqueceu sua senha?</span>
+              <span className="hover:text-primary-foreground/80 cursor-pointer transition-colors">Esqueceu sua senha?</span>
             </div>
           </div>
         </section>
+
+        <p className="mx-auto mt-6 flex max-w-md items-start justify-center gap-2 text-center text-[11px] text-primary-foreground/55">
+          <Lock className="mt-0.5 size-3.5 shrink-0" aria-hidden />
+          Acesso monitorado e registrado em trilha de auditoria. Ambiente de demonstração — não insira dados reais de
+          titulares.
+        </p>
       </div>
     </div>
   );
