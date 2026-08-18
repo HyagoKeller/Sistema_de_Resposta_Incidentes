@@ -14,6 +14,7 @@ import { Route as PainelRouteImport } from './routes/painel'
 import { Route as IncidentesIndexRouteImport } from './routes/incidentes.index'
 import { Route as IncidentesNovoRouteImport } from './routes/incidentes.novo'
 import { Route as IncidentesIdIndexRouteImport } from './routes/incidentes.$id.index'
+import { Route as IncidentesIdAnpdRouteImport } from './routes/incidentes.$id.anpd'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,12 +41,18 @@ const IncidentesIdIndexRoute = IncidentesIdIndexRouteImport.update({
   path: '/incidentes/$id/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IncidentesIdAnpdRoute = IncidentesIdAnpdRouteImport.update({
+  id: '/incidentes/$id/anpd',
+  path: '/incidentes/$id/anpd',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/painel': typeof PainelRoute
   '/incidentes/novo': typeof IncidentesNovoRoute
   '/incidentes/': typeof IncidentesIndexRoute
+  '/incidentes/$id/anpd': typeof IncidentesIdAnpdRoute
   '/incidentes/$id/': typeof IncidentesIdIndexRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/painel': typeof PainelRoute
   '/incidentes/novo': typeof IncidentesNovoRoute
   '/incidentes': typeof IncidentesIndexRoute
+  '/incidentes/$id/anpd': typeof IncidentesIdAnpdRoute
   '/incidentes/$id': typeof IncidentesIdIndexRoute
 }
 export interface FileRoutesById {
@@ -61,20 +69,33 @@ export interface FileRoutesById {
   '/painel': typeof PainelRoute
   '/incidentes/novo': typeof IncidentesNovoRoute
   '/incidentes/': typeof IncidentesIndexRoute
+  '/incidentes/$id/anpd': typeof IncidentesIdAnpdRoute
   '/incidentes/$id/': typeof IncidentesIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/painel' | '/incidentes/novo' | '/incidentes/' | '/incidentes/$id/'
+    | '/'
+    | '/painel'
+    | '/incidentes/novo'
+    | '/incidentes/'
+    | '/incidentes/$id/anpd'
+    | '/incidentes/$id/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/painel' | '/incidentes/novo' | '/incidentes' | '/incidentes/$id'
+  to:
+    | '/'
+    | '/painel'
+    | '/incidentes/novo'
+    | '/incidentes'
+    | '/incidentes/$id/anpd'
+    | '/incidentes/$id'
   id:
     | '__root__'
     | '/'
     | '/painel'
     | '/incidentes/novo'
     | '/incidentes/'
+    | '/incidentes/$id/anpd'
     | '/incidentes/$id/'
   fileRoutesById: FileRoutesById
 }
@@ -83,6 +104,7 @@ export interface RootRouteChildren {
   PainelRoute: typeof PainelRoute
   IncidentesNovoRoute: typeof IncidentesNovoRoute
   IncidentesIndexRoute: typeof IncidentesIndexRoute
+  IncidentesIdAnpdRoute: typeof IncidentesIdAnpdRoute
   IncidentesIdIndexRoute: typeof IncidentesIdIndexRoute
 }
 
@@ -123,6 +145,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IncidentesIdIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/incidentes/$id/anpd': {
+      id: '/incidentes/$id/anpd'
+      path: '/incidentes/$id/anpd'
+      fullPath: '/incidentes/$id/anpd'
+      preLoaderRoute: typeof IncidentesIdAnpdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -131,6 +160,7 @@ const rootRouteChildren: RootRouteChildren = {
   PainelRoute: PainelRoute,
   IncidentesNovoRoute: IncidentesNovoRoute,
   IncidentesIndexRoute: IncidentesIndexRoute,
+  IncidentesIdAnpdRoute: IncidentesIdAnpdRoute,
   IncidentesIdIndexRoute: IncidentesIdIndexRoute,
 }
 export const routeTree = rootRouteImport
