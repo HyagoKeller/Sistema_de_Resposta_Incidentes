@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuditoriaRouteImport } from './routes/auditoria'
 import { Route as PainelRouteImport } from './routes/painel'
 import { Route as IncidentesIndexRouteImport } from './routes/incidentes.index'
 import { Route as IncidentesNovoRouteImport } from './routes/incidentes.novo'
@@ -19,6 +20,11 @@ import { Route as IncidentesIdAnpdRouteImport } from './routes/incidentes.$id.an
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuditoriaRoute = AuditoriaRouteImport.update({
+  id: '/auditoria',
+  path: '/auditoria',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PainelRoute = PainelRouteImport.update({
@@ -49,6 +55,7 @@ const IncidentesIdAnpdRoute = IncidentesIdAnpdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auditoria': typeof AuditoriaRoute
   '/painel': typeof PainelRoute
   '/incidentes/novo': typeof IncidentesNovoRoute
   '/incidentes/': typeof IncidentesIndexRoute
@@ -57,6 +64,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auditoria': typeof AuditoriaRoute
   '/painel': typeof PainelRoute
   '/incidentes/novo': typeof IncidentesNovoRoute
   '/incidentes': typeof IncidentesIndexRoute
@@ -66,6 +74,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auditoria': typeof AuditoriaRoute
   '/painel': typeof PainelRoute
   '/incidentes/novo': typeof IncidentesNovoRoute
   '/incidentes/': typeof IncidentesIndexRoute
@@ -76,6 +85,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auditoria'
     | '/painel'
     | '/incidentes/novo'
     | '/incidentes/'
@@ -84,6 +94,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auditoria'
     | '/painel'
     | '/incidentes/novo'
     | '/incidentes'
@@ -92,6 +103,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/auditoria'
     | '/painel'
     | '/incidentes/novo'
     | '/incidentes/'
@@ -101,6 +113,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuditoriaRoute: typeof AuditoriaRoute
   PainelRoute: typeof PainelRoute
   IncidentesNovoRoute: typeof IncidentesNovoRoute
   IncidentesIndexRoute: typeof IncidentesIndexRoute
@@ -115,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auditoria': {
+      id: '/auditoria'
+      path: '/auditoria'
+      fullPath: '/auditoria'
+      preLoaderRoute: typeof AuditoriaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/painel': {
@@ -157,6 +177,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuditoriaRoute: AuditoriaRoute,
   PainelRoute: PainelRoute,
   IncidentesNovoRoute: IncidentesNovoRoute,
   IncidentesIndexRoute: IncidentesIndexRoute,
