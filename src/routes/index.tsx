@@ -59,13 +59,24 @@ export default function LoginPage() {
       <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-5 py-14 lg:grid-cols-[1.05fr_0.95fr] lg:py-24">
         <section>
           <div className="flex items-center gap-4">
-            <img
-              src={aguLogo.url}
-              alt="Brasão da Advocacia-Geral da União"
-              className="h-14 w-auto rounded-sm shadow-gov-lg"
-              width={112}
-              height={56}
-            />
+            <div className="relative overflow-hidden rounded-sm shadow-gov-lg">
+              <img
+                src={aguLogo.url}
+                alt="Brasão da Advocacia-Geral da União"
+                className="h-14 w-auto"
+                width={112}
+                height={56}
+              />
+              <div
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(135deg, oklch(0.42 0.15 263 / 0.35) 0%, oklch(0.32 0.12 263 / 0.15) 50%, transparent 100%)",
+                  mixBlendMode: "multiply",
+                }}
+                aria-hidden
+              />
+            </div>
             <div className="border-l border-primary-foreground/25 pl-4">
               <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary-foreground/70">
                 Advocacia-Geral da União
@@ -192,7 +203,7 @@ export default function LoginPage() {
             </Tabs>
 
             <div className="mt-6 flex flex-wrap items-center justify-between gap-2 border-t border-border pt-4 text-xs text-muted-foreground">
-              <span>Suporte: Central de Serviços de TI</span>
+              <span>Suporte: AGU Serviços</span>
               <span>Esqueceu sua senha?</span>
             </div>
           </div>
