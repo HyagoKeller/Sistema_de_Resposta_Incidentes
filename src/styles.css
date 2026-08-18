@@ -155,3 +155,23 @@
 @utility gov-bar {
   background: linear-gradient(90deg, var(--color-primary-dark), var(--color-primary));
 }
+
+/* Faixa tricolor institucional (verde/amarelo/azul) */
+@utility gov-stripe {
+  background: linear-gradient(90deg, var(--color-success) 0%, var(--color-success) 33%, var(--color-warning) 33%, var(--color-warning) 66%, var(--color-primary) 66%);
+}
+
+/* Superfície institucional escura usada na tela de acesso */
+@utility gov-deep {
+  background:
+    radial-gradient(1100px 520px at 12% -10%, oklch(0.42 0.15 263 / 0.55), transparent 60%),
+    radial-gradient(900px 480px at 95% 110%, oklch(0.535 0.146 148 / 0.22), transparent 60%),
+    linear-gradient(160deg, oklch(0.19 0.055 259), oklch(0.135 0.04 259));
+}
+
+@utility gov-grid {
+  background-image:
+    linear-gradient(oklch(1 0 0 / 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(1 0 0 / 0.045) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
