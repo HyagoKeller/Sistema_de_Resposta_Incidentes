@@ -15,7 +15,7 @@ export interface AuditEntry {
   papel: RoleId;
   acao: string;
   entidade: string;
-  detalhe?: string;
+  detalhe?: string | undefined;
   ip: string;
 }
 
