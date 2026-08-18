@@ -58,9 +58,9 @@
   --font-body: "Raleway", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Raleway", ui-sans-serif, system-ui, sans-serif;
 
-  --background: oklch(0.975 0 0);
-  --foreground: oklch(0.24 0.055 259);
-  --surface: oklch(1 0 0);
+  --background: oklch(0.935 0.006 260);
+  --foreground: oklch(0.22 0.055 259);
+  --surface: oklch(0.985 0.003 260);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.24 0.055 259);
   --popover: oklch(1 0 0);
