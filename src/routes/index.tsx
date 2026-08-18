@@ -203,7 +203,7 @@ export default function LoginPage() {
             </Tabs>
 
             <div className="mt-6 flex flex-wrap items-center justify-between gap-2 border-t border-border pt-4 text-xs text-muted-foreground">
-              <span>Suporte: Central de Serviços de TI</span>
+              <span>Suporte: AGU Serviços</span>
               <span>Esqueceu sua senha?</span>
             </div>
           </div>
