@@ -502,7 +502,6 @@ function seedIncidents(): Incident[] {
       dpo_acionado: true,
       notificar_anpd: true,
       tipo_incidente: "Vazamento de dados",
-      notificar_anpd: true,
       notificar_titulares: true,
       priv_cat_dados: "Nome, CPF, matrícula SIAPE, lotação",
       priv_num_titulares: 1240,
