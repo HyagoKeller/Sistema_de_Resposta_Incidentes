@@ -12,7 +12,7 @@ import {
   Zap,
 } from "lucide-react";
 import { AppShell } from "@/components/sri/AppShell";
-import { CriticidadeBadge, SlaBadge, StatusBadge } from "@/components/sri/Badges";
+import { CriticidadeBadge, SlaBadge, StatusBadge, TipoBadge } from "@/components/sri/Badges";
 import { FieldInput } from "@/components/sri/FieldInput";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -93,6 +93,7 @@ function IncidenteWizard() {
         <div>
           <div className="flex flex-wrap items-center gap-2">
             <span className="font-mono text-sm font-bold text-primary">{inc.codigo}</span>
+            <TipoBadge tipo={inc.tipo} />
             <CriticidadeBadge value={inc.data["criticidade"] as string} />
             <StatusBadge status={inc.status} />
             {inc.simulacao && <Badge variant="outline">Simulação — sem notificação real</Badge>}

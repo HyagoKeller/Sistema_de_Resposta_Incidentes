@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Plus, Search } from "lucide-react";
 import { AppShell } from "@/components/sri/AppShell";
-import { CriticidadeBadge, StatusBadge } from "@/components/sri/Badges";
+import { CriticidadeBadge, StatusBadge, TipoBadge } from "@/components/sri/Badges";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -80,6 +80,7 @@ function ListaIncidentes() {
                   )}
                 </TableCell>
                 <TableCell>
+                  <TipoBadge tipo={i.tipo} />
                   <CriticidadeBadge value={i.data["criticidade"] as string} />
                 </TableCell>
                 <TableCell className="text-sm">{i.faseAtual}/7</TableCell>
