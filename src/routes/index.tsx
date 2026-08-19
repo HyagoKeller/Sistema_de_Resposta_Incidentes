@@ -67,16 +67,16 @@ export default function LoginPage() {
       <div className="absolute inset-0 gov-grid opacity-60" aria-hidden />
       <div className="fixed top-0 left-0 right-0 h-1.5 gov-stripe" aria-hidden />
 
-      <div className="relative z-10 mx-auto grid w-full max-w-5xl flex-1 items-center gap-8 px-5 py-10 lg:grid-cols-2 lg:gap-12">
+      <div className="relative z-10 mx-auto grid w-full max-w-5xl flex-1 items-start gap-5 px-5 py-5 lg:grid-cols-2 lg:items-center lg:gap-12 lg:py-10">
         {/* Coluna institucional */}
         <section className="text-center lg:text-left">
           <div className="relative inline-flex overflow-hidden rounded-sm">
             <img
               src={aguLogo.url}
               alt="Brasão da Advocacia-Geral da União"
-              className="h-14 w-auto"
-              width={112}
-              height={56}
+              className="h-12 w-auto"
+              width={96}
+              height={48}
             />
             <div
               className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary to-primary-dark"
@@ -85,7 +85,7 @@ export default function LoginPage() {
             />
           </div>
 
-          <div className="mt-3 space-y-0.5">
+          <div className="mt-2 space-y-0.5">
             <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary-foreground/80">
               Advocacia-Geral da União
             </p>
@@ -94,16 +94,15 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <h1 className="mt-5 text-2xl font-extrabold leading-tight tracking-tight text-primary-foreground sm:text-3xl">
+          <h1 className="mt-3 text-xl font-extrabold leading-tight tracking-tight text-primary-foreground sm:text-2xl">
             Sistema de Resposta <span className="text-warning">a Incidentes</span>
           </h1>
 
-          <p className="mt-2 max-w-sm text-sm leading-relaxed text-primary-foreground/80 mx-auto lg:mx-0">
-            Registro, condução e documentação de incidentes de Segurança da Informação e Privacidade, em conformidade
-            com o PRI/AGU, o art. 48 da LGPD e a Resolução CD/ANPD nº 2/2022.
+          <p className="mt-1.5 max-w-sm text-xs leading-relaxed text-primary-foreground/80 mx-auto lg:mx-0">
+            Registro, condução e documentação de incidentes de Segurança da Informação e Privacidade.
           </p>
 
-          <dl className="mt-6 grid gap-2.5 sm:grid-cols-3">
+          <dl className="mt-4 grid gap-2 sm:grid-cols-3">
             {[
               { icon: ShieldCheck, k: "7 fases", v: "Checklist validado" },
               { icon: ScrollText, k: "Art. 48", v: "ANPD pré-preenchido" },
@@ -111,52 +110,51 @@ export default function LoginPage() {
             ].map(({ icon: Icon, k, v }) => (
               <div
                 key={k}
-                className="rounded-sm border border-primary-foreground/10 bg-primary-foreground/[0.05] p-2.5 text-center backdrop-blur-sm"
+                className="rounded-sm border border-primary-foreground/10 bg-primary-foreground/[0.05] p-2 text-center backdrop-blur-sm"
               >
-                <Icon className="mx-auto size-4 text-warning" aria-hidden />
-                <dt className="mt-1.5 text-xs font-bold text-primary-foreground">{k}</dt>
-                <dd className="mt-0.5 text-[11px] leading-snug text-primary-foreground/65">{v}</dd>
+                <Icon className="mx-auto size-3.5 text-warning" aria-hidden />
+                <dt className="mt-1 text-[11px] font-bold text-primary-foreground">{k}</dt>
+                <dd className="mt-0.5 text-[10px] leading-snug text-primary-foreground/65">{v}</dd>
               </div>
             ))}
           </dl>
         </section>
 
         {/* Coluna de acesso */}
-        <div className="mx-auto w-full max-w-sm">
+        <div className="mx-auto w-full max-w-xs">
           <section className="overflow-hidden rounded-md border border-primary-foreground/10 bg-primary-foreground/[0.04] shadow-gov backdrop-blur-md">
             <div className="h-1 gov-stripe" aria-hidden />
-            <div className="p-4">
+            <div className="p-3.5">
               <h2 className="text-center text-sm font-bold text-primary-foreground">Acesso institucional</h2>
               <p className="mt-1 text-center text-[11px] text-primary-foreground/70">
-                O perfil é atribuído automaticamente pelos grupos do diretório corporativo após a autenticação.
+                Perfil atribuído automaticamente pelo diretório corporativo.
               </p>
 
-              <Tabs defaultValue="sso" className="mt-4">
-                <TabsList className="grid h-8 w-full grid-cols-2 text-[11px]">
+              <Tabs defaultValue="sso" className="mt-3">
+                <TabsList className="grid h-7 w-full grid-cols-2 text-[11px]">
                   <TabsTrigger value="sso">SSO federado</TabsTrigger>
                   <TabsTrigger value="local">Conta local</TabsTrigger>
                 </TabsList>
 
-                <TabsContent value="sso" className="space-y-2.5 pt-3">
-                  <p className="text-[11px] text-primary-foreground/75">
-                    Autenticação federada (OAuth2/OIDC) com escopos mínimos{" "}
-                    <code className="text-[10px]">openid profile email</code>.
-                  </p>
+                <TabsContent value="sso" className="space-y-2 pt-2">
                   <Button className="w-full" size="sm" onClick={() => entrar("SSO Microsoft 365", "Servidor AGU")}>
-                    <KeyRound className="size-4" aria-hidden /> Entrar com Microsoft 365
-                    <ArrowRight className="size-4" aria-hidden />
+                    <KeyRound className="size-3.5" aria-hidden /> Entrar com Microsoft 365
+                    <ArrowRight className="size-3.5" aria-hidden />
                   </Button>
                   <Button
                     className="w-full bg-white text-black hover:bg-white/90"
                     size="sm"
                     onClick={() => entrar("SSO Google Workspace", "Servidor AGU")}
                   >
-                    <GoogleIcon className="size-4" /> Entrar com Google Workspace
-                    <ArrowRight className="size-4" aria-hidden />
+                    <GoogleIcon className="size-3.5" /> Entrar com Google Workspace
+                    <ArrowRight className="size-3.5" aria-hidden />
                   </Button>
+                  <p className="text-[10px] text-primary-foreground/60">
+                    OAuth2/OIDC com escopos mínimos <code className="text-[10px]">openid profile email</code>.
+                  </p>
                 </TabsContent>
 
-                <TabsContent value="local" className="space-y-2.5 pt-3">
+                <TabsContent value="local" className="space-y-2 pt-2">
                   {!etapaMfa ? (
                     <>
                       <div className="space-y-1">
@@ -206,7 +204,7 @@ export default function LoginPage() {
                   ) : (
                     <>
                       <div className="flex items-center gap-2 rounded-sm border border-primary-foreground/10 bg-primary-foreground/[0.05] p-2 text-[11px]">
-                        <Smartphone className="size-4 text-warning" aria-hidden />
+                        <Smartphone className="size-3.5 text-warning" aria-hidden />
                         Informe o código de 6 dígitos do seu autenticador (TOTP).
                       </div>
                       <div className="space-y-1">
@@ -230,17 +228,16 @@ export default function LoginPage() {
                 </TabsContent>
               </Tabs>
 
-              <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-primary-foreground/10 pt-2.5 text-[11px] text-primary-foreground/60">
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-primary-foreground/10 pt-2 text-[10px] text-primary-foreground/60">
                 <span>Suporte: AGU Serviços</span>
                 <span className="hover:text-primary-foreground/85 cursor-pointer transition-colors">Esqueceu sua senha?</span>
               </div>
             </div>
           </section>
 
-          <p className="mx-auto mt-4 flex max-w-sm items-start justify-center gap-2 text-center text-[10px] text-primary-foreground/60">
+          <p className="mx-auto mt-3 flex max-w-xs items-start justify-center gap-1.5 text-center text-[10px] text-primary-foreground/60">
             <Lock className="mt-0.5 size-3 shrink-0" aria-hidden />
-            Acesso monitorado e registrado em trilha de auditoria. Ambiente de demonstração — não insira dados reais de
-            titulares.
+            Acesso monitorado em trilha de auditoria. Não insira dados reais de titulares.
           </p>
         </div>
       </div>
