@@ -12,9 +12,9 @@ import { useIncidents } from "@/lib/sri-store";
 export const Route = createFileRoute("/relatorios")({
   head: () => ({
     meta: [
-      { title: "Relatórios e Consolidação — SRI/AGU" },
+      { title: "Relatórios e Consolidação - SRI/AGU" },
       { name: "description", content: "Indicadores consolidados de incidentes e geração de relatórios preliminares, finais e formulário ANPD em .docx." },
-      { property: "og:title", content: "Relatórios e Consolidação — SRI/AGU" },
+      { property: "og:title", content: "Relatórios e Consolidação - SRI/AGU" },
       { property: "og:description", content: "Exporte relatórios institucionais em Word a partir das 7 fases do PRI/AGU." },
     ],
   }),
@@ -88,7 +88,7 @@ function Relatorios() {
                 </div>
                 <p className="mt-2 text-sm font-semibold text-foreground">
                   <Link to="/incidentes/$id" params={{ id: inc.id }} className="hover:underline">
-                    {inc.codigo} — {String(inc.data["titulo"] ?? "Sem título")}
+                    {inc.codigo} - {String(inc.data["titulo"] ?? "Sem título")}
                   </Link>
                 </p>
                 <p className="flex items-center gap-1.5 text-xs text-muted-foreground">

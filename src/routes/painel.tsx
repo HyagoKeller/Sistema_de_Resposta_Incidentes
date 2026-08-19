@@ -12,9 +12,9 @@ import { CriticidadeBadge, StatusBadge } from "@/components/sri/Badges";
 export const Route = createFileRoute("/painel")({
   head: () => ({
     meta: [
-      { title: "Painel de Incidentes — SRI/AGU" },
+      { title: "Painel de Incidentes - SRI/AGU" },
       { name: "description", content: "Indicadores de incidentes por criticidade, cumprimento de SLA do DPO e da ANPD e planos corretivos pendentes." },
-      { property: "og:title", content: "Painel de Incidentes — SRI/AGU" },
+      { property: "og:title", content: "Painel de Incidentes - SRI/AGU" },
       { property: "og:description", content: "Visão consolidada dos incidentes de segurança e privacidade da AGU." },
     ],
   }),

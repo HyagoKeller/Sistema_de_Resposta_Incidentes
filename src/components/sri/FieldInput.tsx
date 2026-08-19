@@ -59,7 +59,7 @@ export function FieldInput({ field, value, onChange, disabled, podeVerPII, inval
   ) : null;
 
   if (mascarado) {
-    const texto = typeof value === "string" && value ? maskPii(value) : "—";
+    const texto = typeof value === "string" && value ? maskPii(value) : "-";
     return (
       <div className={cn("space-y-2", field.full && "md:col-span-2")}>
         {label}

@@ -10,9 +10,9 @@ import { useStore } from "@/lib/sri-store";
 export const Route = createFileRoute("/auditoria")({
   head: () => ({
     meta: [
-      { title: "Trilha de auditoria — SRI/AGU" },
+      { title: "Trilha de auditoria - SRI/AGU" },
       { name: "description", content: "Registro append-only de logins, alterações de campos, transições de fase, geração de documentos e acessos a dados pessoais." },
-      { property: "og:title", content: "Trilha de auditoria — SRI/AGU" },
+      { property: "og:title", content: "Trilha de auditoria - SRI/AGU" },
       { property: "og:description", content: "Evidência probatória das ações realizadas no sistema de resposta a incidentes." },
     ],
   }),
@@ -60,7 +60,7 @@ function Auditoria() {
                 <TableCell className="text-xs">{getRole(a.papel).nome}</TableCell>
                 <TableCell className="text-xs font-semibold text-primary">{a.acao}</TableCell>
                 <TableCell className="text-xs">{a.entidade}</TableCell>
-                <TableCell className="max-w-xs truncate text-xs text-muted-foreground">{a.detalhe ?? "—"}</TableCell>
+                <TableCell className="max-w-xs truncate text-xs text-muted-foreground">{a.detalhe ?? "-"}</TableCell>
                 <TableCell className="font-mono text-[11px] text-muted-foreground">{a.ip}</TableCell>
               </TableRow>
             ))}

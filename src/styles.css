@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Design system — padrão gov.br (Design System do Governo Federal).
+ * Design system - padrão gov.br (Design System do Governo Federal).
  * Azul institucional #1351B4, azul escuro #071D41, amarelo #FFCD07.
  * Todas as cores em oklch e expostas como tokens semânticos.
  */

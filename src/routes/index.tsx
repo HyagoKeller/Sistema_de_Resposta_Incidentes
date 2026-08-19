@@ -8,9 +8,9 @@ import aguLogo from "@/assets/agu-logo-transparent.png.asset.json";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "SRI/AGU — Acesso ao Sistema de Resposta a Incidentes" },
+      { title: "SRI/AGU - Acesso ao Sistema de Resposta a Incidentes" },
       { name: "description", content: "Acesso institucional ao Sistema de Resposta a Incidentes de Segurança da Informação e Privacidade da AGU, com SSO Microsoft 365 e Google Workspace." },
-      { property: "og:title", content: "SRI/AGU — Sistema de Resposta a Incidentes" },
+      { property: "og:title", content: "SRI/AGU - Sistema de Resposta a Incidentes" },
       { property: "og:description", content: "Registro, workflow das 7 fases do PRI/AGU e Formulário ANPD (art. 48 LGPD) em um só lugar." },
     ],
   }),
