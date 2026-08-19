@@ -281,7 +281,7 @@ export const PHASES: PhaseDef[] = [
         label: "Origem / forma de detecção",
         type: "select",
         required: true,
-        options: ["SIEM/SOC", "EDR/Antivírus", "Denúncia de usuário", "Titular de dados", "Órgão externo (CTIR.GOV/ANPD)", "Auditoria interna", "Mídia/Imprensa", "Outro"],
+        options: ["Monitoramento automático (SIEM/SOC)", "EDR/Antivírus", "E-mail institucional", "Telefone", "Denúncia de usuário", "Relato de terceiro", "Titular de dados", "Encarregado de Dados", "Órgão externo (CTIR.GOV/ANPD)", "Auditoria interna", "Mídia/Imprensa", "Outro"],
       },
       { id: "notificante", label: "Notificante (nome / unidade)", type: "text", required: true },
       { id: "descricao_preliminar", label: "Descrição preliminar do ocorrido", type: "textarea", required: true, full: true, pii: true },
