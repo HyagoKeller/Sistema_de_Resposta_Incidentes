@@ -101,7 +101,7 @@ function cabecalho(doc: string, inc: Incident): Paragraph[] {
     new Paragraph({
       alignment: AlignmentType.CENTER,
       spacing: { after: 60 },
-      children: [new TextRun({ text: "Departamento de Segurança da Informação — Sistema de Resposta a Incidentes (SRI)", font: FONTE, size: 18, color: "5A6B82" })],
+      children: [new TextRun({ text: "Departamento de Segurança da Informação - Sistema de Resposta a Incidentes (SRI)", font: FONTE, size: 18, color: "5A6B82" })],
     }),
     new Paragraph({
       alignment: AlignmentType.CENTER,
@@ -137,7 +137,7 @@ function construir(tipo: TipoDocumento, inc: Incident): Document {
   } else {
     const fasesIncluidas = tipo === "Relatório Preliminar" ? PHASES.slice(0, 2) : PHASES;
     for (const fase of fasesIncluidas) {
-      filhos.push(titulo(`Fase ${fase.numero} — ${fase.titulo}`));
+      filhos.push(titulo(`Fase ${fase.numero} - ${fase.titulo}`));
       const visiveis = fase.fields.filter((f) => !f.showWhen || f.showWhen(inc.data));
       filhos.push(tabela(visiveis.map((f) => linha(f.label, inc.data[f.id]))));
     }
@@ -148,7 +148,7 @@ function construir(tipo: TipoDocumento, inc: Incident): Document {
     tabela(
       inc.auditoria
         .slice(0, 15)
-        .map((a) => linha(new Date(a.ts).toLocaleString("pt-BR"), `${a.acao} — ${a.entidade}${a.detalhe ? ` (${a.detalhe})` : ""} · ${a.ator}`)),
+        .map((a) => linha(new Date(a.ts).toLocaleString("pt-BR"), `${a.acao} - ${a.entidade}${a.detalhe ? ` (${a.detalhe})` : ""} · ${a.ator}`)),
     ),
   );
 

@@ -44,9 +44,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/incidentes/$id/")({
   head: () => ({
     meta: [
-      { title: "Checklist do incidente — SRI/AGU" },
+      { title: "Checklist do incidente - SRI/AGU" },
       { name: "description", content: "Wizard das 7 fases do PRI/AGU com validação bloqueante, SLAs, evidências e trilha de auditoria do incidente." },
-      { property: "og:title", content: "Checklist do incidente — SRI/AGU" },
+      { property: "og:title", content: "Checklist do incidente - SRI/AGU" },
       { property: "og:description", content: "Conduza o incidente da identificação ao encerramento formal." },
     ],
   }),
@@ -96,7 +96,7 @@ function IncidenteWizard() {
             <TipoBadge tipo={inc.tipo} />
             <CriticidadeBadge value={inc.data["criticidade"] as string} />
             <StatusBadge status={inc.status} />
-            {inc.simulacao && <Badge variant="outline">Simulação — sem notificação real</Badge>}
+            {inc.simulacao && <Badge variant="outline">Simulação - sem notificação real</Badge>}
           </div>
           <h1 className="mt-2 max-w-3xl text-2xl font-bold text-primary-dark">{String(inc.data["titulo"] ?? "Sem título")}</h1>
         </div>
@@ -216,7 +216,7 @@ function IncidenteWizard() {
               {tentouAvancar && faltantes.length > 0 && (
                 <div className="mt-6 rounded-sm border-l-4 border-destructive bg-destructive/10 p-4">
                   <p className="flex items-center gap-2 text-sm font-semibold text-destructive">
-                    <AlertTriangle className="size-4" aria-hidden /> Transição bloqueada — ações obrigatórias pendentes
+                    <AlertTriangle className="size-4" aria-hidden /> Transição bloqueada - ações obrigatórias pendentes
                   </p>
                   <ul className="mt-2 list-inside list-disc text-sm text-foreground">
                     {faltantes.map((f) => (
@@ -351,7 +351,7 @@ function IncidenteWizard() {
               {inc.documentos.map((d) => (
                 <div key={d.id} className="rounded-sm border border-border p-2.5 text-xs">
                   <p className="font-semibold text-foreground">
-                    {d.tipo} — v{d.versao}
+                    {d.tipo} - v{d.versao}
                   </p>
                   <p className="text-muted-foreground">
                     {new Date(d.geradoEm).toLocaleString("pt-BR")} · {d.geradoPor}

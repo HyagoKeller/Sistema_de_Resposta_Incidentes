@@ -159,7 +159,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                   <Menu className="size-5" aria-hidden />
                 </Button>
                 <p className="hidden truncate text-sm font-semibold uppercase tracking-wide text-foreground sm:block lg:text-base">
-                  Advocacia-Geral da União <span className="text-foreground/70">· SGE/DTI — Segurança da Informação e Privacidade</span>
+                  Advocacia-Geral da União <span className="text-foreground/70">· SGE/DTI - Segurança da Informação e Privacidade</span>
                 </p>
                 <p className="truncate text-sm font-bold uppercase tracking-wide text-foreground sm:hidden">
                   SRI · AGU
@@ -194,7 +194,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <div className="flex w-full flex-col gap-3 px-4 py-6 lg:px-8 2xl:px-12 text-xs text-foreground/70 sm:flex-row sm:items-center sm:px-6">
               <img src={agustin} alt="" aria-hidden className="size-8 shrink-0 rounded-full object-cover opacity-90 ring-2 ring-plum/50" />
               <div className="min-w-0">
-                <p className="font-semibold text-foreground">Advocacia-Geral da União — Sistema de Resposta a Incidentes (SRI)</p>
+                <p className="font-semibold text-foreground">Advocacia-Geral da União - Sistema de Resposta a Incidentes (SRI)</p>
                 <p className="mt-1">
                   Ambiente de demonstração. Base normativa: PRI/AGU, LGPD art. 48 e Resolução CD/ANPD nº 2/2022. Acessibilidade eMAG / WCAG 2.1 AA.
                 </p>

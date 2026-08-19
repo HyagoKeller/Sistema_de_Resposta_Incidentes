@@ -13,9 +13,9 @@ import { progressoGeral, useIncidents } from "@/lib/sri-store";
 export const Route = createFileRoute("/incidentes/")({
   head: () => ({
     meta: [
-      { title: "Incidentes registrados — SRI/AGU" },
+      { title: "Incidentes registrados - SRI/AGU" },
       { name: "description", content: "Lista de incidentes de segurança da informação e privacidade com fase atual, criticidade e progresso do checklist." },
-      { property: "og:title", content: "Incidentes registrados — SRI/AGU" },
+      { property: "og:title", content: "Incidentes registrados - SRI/AGU" },
       { property: "og:description", content: "Acompanhe o ciclo de vida de cada incidente nas 7 fases do PRI/AGU." },
     ],
   }),

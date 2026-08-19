@@ -1,5 +1,5 @@
 /**
- * Estrutura de dados do SRI/AGU — 7 fases do checklist + Formulário ANPD (art. 48 LGPD).
+ * Estrutura de dados do SRI/AGU - 7 fases do checklist + Formulário ANPD (art. 48 LGPD).
  * Definições declarativas: os formulários são renderizados a partir daqui.
  */
 
@@ -32,7 +32,7 @@ export interface FieldDef {
   options?: string[];
   help?: string;
   placeholder?: string;
-  /** Campo contém dado pessoal — mascarado para papéis sem autorização (RNF-002). */
+  /** Campo contém dado pessoal - mascarado para papéis sem autorização (RNF-002). */
   pii?: boolean;
   /** Campo gerado pelo sistema, não editável (RF-030). */
   readOnly?: boolean;
@@ -119,7 +119,7 @@ export const ROLES: RoleDef[] = [
   },
   {
     id: "etir",
-    nome: "ETIR — Equipe de Resposta",
+    nome: "ETIR - Equipe de Resposta",
     descricao: "Análise, contenção, erradicação e recuperação.",
     editaFases: [1, 2, 3, 4, 5, 7],
     leFases: TODAS,
@@ -311,7 +311,7 @@ export const PHASES: PhaseDef[] = [
           { id: "hash", label: "Hash (SHA-256)", type: "text" },
         ],
       },
-      { id: "chamado_itsm", label: "Nº de chamado no AGU Serviços (referência)", type: "text", help: "Rastreabilidade operacional — sem replicar dados pessoais (RF-061)." },
+      { id: "chamado_itsm", label: "Nº de chamado no AGU Serviços (referência)", type: "text", help: "Rastreabilidade operacional - sem replicar dados pessoais (RF-061)." },
 
       /* --- Bloco específico de incidentes de PRIVACIDADE (LGPD) --- */
       {
@@ -685,7 +685,7 @@ export const PHASES: PhaseDef[] = [
 export const getPhase = (numero: number): PhaseDef => PHASES.find((p) => p.numero === numero) ?? PHASES[0]!;
 
 /* ------------------------------------------------------------------ */
-/* Formulário ANPD — 8 seções (art. 48 LGPD / Resolução CD/ANPD 2/2022) */
+/* Formulário ANPD - 8 seções (art. 48 LGPD / Resolução CD/ANPD 2/2022) */
 /* ------------------------------------------------------------------ */
 
 export interface AnpdSection {
@@ -792,7 +792,7 @@ export const ANPD_SECTIONS: AnpdSection[] = [
       { id: "dados_sensiveis_afetados", label: "Envolve dados sensíveis (art. 5º, II, LGPD)?", type: "bool", required: true },
       { id: "dados_criancas", label: "Envolve dados de crianças e adolescentes?", type: "bool", required: true },
       { id: "consequencias", label: "Consequências prováveis para os titulares", type: "textarea", required: true, full: true },
-      { id: "titulares_identificados", label: "Relação de titulares afetados", type: "textarea", full: true, pii: true, help: "Dado pessoal — visível apenas ao Encarregado (RNF-001/002)." },
+      { id: "titulares_identificados", label: "Relação de titulares afetados", type: "textarea", full: true, pii: true, help: "Dado pessoal - visível apenas ao Encarregado (RNF-001/002)." },
     ],
   },
   {
@@ -810,13 +810,13 @@ export const ANPD_SECTIONS: AnpdSection[] = [
 
 /** Pré-preenchimento do Formulário ANPD a partir das fases 1–6 (RF-041). */
 export const ANPD_PREFILL: Record<string, (d: Record<string, unknown>) => unknown> = {
-  controlador_nome: () => "Advocacia-Geral da União — AGU",
+  controlador_nome: () => "Advocacia-Geral da União - AGU",
   controlador_cnpj: () => "26.994.558/0001-23",
   controlador_natureza: () => "Órgão público federal",
-  controlador_endereco: () => "SIG Quadra 06, Lote 800 — Brasília/DF, CEP 70610-460",
+  controlador_endereco: () => "SIG Quadra 06, Lote 800 - Brasília/DF, CEP 70610-460",
   controlador_email: () => "encarregado.dados@agu.gov.br",
   controlador_telefone: () => "(61) 2026-8000",
-  dpo_nome: () => "Encarregado de Dados — AGU",
+  dpo_nome: () => "Encarregado de Dados - AGU",
   dpo_email: () => "encarregado.dados@agu.gov.br",
   dpo_substituto: () => "Débora Cristina de Carvalho Rodrigues",
   notificante_nome: (d) => d["notificante"],
@@ -828,7 +828,7 @@ export const ANPD_PREFILL: Record<string, (d: Record<string, unknown>) => unknow
   sistemas_envolvidos: (d) => {
     const ativos = d["ativos_afetados"];
     if (!Array.isArray(ativos)) return undefined;
-    return ativos.map((a) => `${(a as Record<string, string>)["ativo"] ?? ""}${(a as Record<string, string>)["impacto"] ? ` — ${(a as Record<string, string>)["impacto"]}` : ""}`).join("\n");
+    return ativos.map((a) => `${(a as Record<string, string>)["ativo"] ?? ""}${(a as Record<string, string>)["impacto"] ? ` - ${(a as Record<string, string>)["impacto"]}` : ""}`).join("\n");
   },
   categorias_dados_afetados: (d) => d["categorias_dados"],
   dados_sensiveis_afetados: (d) => d["envolve_dados_sensiveis"],
@@ -837,7 +837,7 @@ export const ANPD_PREFILL: Record<string, (d: Record<string, unknown>) => unknow
   medidas_apos: (d) => {
     const acoes = d["acoes_contencao"];
     if (!Array.isArray(acoes)) return undefined;
-    return acoes.map((a) => `${(a as Record<string, string>)["dt"] ?? ""} — ${(a as Record<string, string>)["acao"] ?? ""}`).join("\n");
+    return acoes.map((a) => `${(a as Record<string, string>)["dt"] ?? ""} - ${(a as Record<string, string>)["acao"] ?? ""}`).join("\n");
   },
   medidas_preventivas: (d) => d["recomendacoes"],
 };

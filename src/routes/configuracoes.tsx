@@ -11,7 +11,7 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/configuracoes")({
   head: () => ({
     meta: [
-      { title: "Configurações — SRI/AGU" },
+      { title: "Configurações - SRI/AGU" },
       { name: "description", content: "Provisionamento da aplicação SRI/AGU (identidade federada, domínio, ambiente) e configuração do MFA local (TOTP)." },
       { property: "og:title", content: "Configurações do SRI/AGU" },
       { property: "og:description", content: "Provisione a aplicação e configure o MFA local do Sistema de Resposta a Incidentes." },
@@ -243,7 +243,7 @@ function ConfiguracoesPage() {
                 </Button>
               </div>
               <code className="mt-2 block truncate rounded-sm bg-background px-2 py-1.5 text-[11px] tracking-wider text-muted-foreground">
-                {segredo || "— gere um segredo para cadastrar no aplicativo autenticador —"}
+                {segredo || "- gere um segredo para cadastrar no aplicativo autenticador -"}
               </code>
               {segredo && (
                 <p className="mt-2 flex items-start gap-1.5 text-[11px] text-muted-foreground">

@@ -78,10 +78,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "SRI/AGU — Sistema de Resposta a Incidentes" },
+      { title: "SRI/AGU - Sistema de Resposta a Incidentes" },
       { name: "description", content: "Sistema de resposta a incidentes de segurança da informação e privacidade da AGU, conforme o PRI/AGU e o art. 48 da LGPD." },
       { name: "author", content: "Advocacia-Geral da União" },
-      { property: "og:title", content: "SRI/AGU — Sistema de Resposta a Incidentes" },
+      { property: "og:title", content: "SRI/AGU - Sistema de Resposta a Incidentes" },
       { property: "og:description", content: "Checklist de 7 fases, Formulário ANPD e trilha de auditoria." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

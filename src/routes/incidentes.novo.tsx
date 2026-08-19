@@ -14,9 +14,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/incidentes/novo")({
   head: () => ({
     meta: [
-      { title: "Registrar incidente — SRI/AGU" },
+      { title: "Registrar incidente - SRI/AGU" },
       { name: "description", content: "Abertura do registro inicial de incidente de segurança da informação ou de privacidade na AGU." },
-      { property: "og:title", content: "Registrar incidente — SRI/AGU" },
+      { property: "og:title", content: "Registrar incidente - SRI/AGU" },
       { property: "og:description", content: "Escolha a trilha (segurança ou privacidade) e inicie o checklist de 7 fases do PRI/AGU." },
     ],
   }),
@@ -108,13 +108,13 @@ function NovoIncidente() {
               placeholder="Ex.: Exposição indevida de planilha com dados de servidores"
               disabled={!podeCriar}
             />
-            <p className="text-xs text-muted-foreground">Evite incluir nomes, CPFs ou outros dados pessoais no título (minimização — RNF-004).</p>
+            <p className="text-xs text-muted-foreground">Evite incluir nomes, CPFs ou outros dados pessoais no título (minimização - RNF-004).</p>
           </div>
 
           <div className="flex items-center gap-3 rounded-sm border border-border bg-muted/50 p-3">
             <Switch id="simulacao" checked={simulacao} onCheckedChange={setSimulacao} disabled={!podeCriar} />
             <Label htmlFor="simulacao" className="text-sm font-normal">
-              Registro de <strong>simulação</strong> — segue o mesmo fluxo, sem notificação real e fora dos indicadores.
+              Registro de <strong>simulação</strong> - segue o mesmo fluxo, sem notificação real e fora dos indicadores.
             </Label>
           </div>
 

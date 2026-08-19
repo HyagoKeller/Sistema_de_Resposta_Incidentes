@@ -24,13 +24,13 @@ import { CRITICIDADES, PHASES } from "@/lib/sri-schema";
 export const Route = createFileRoute("/dashboards")({
   head: () => ({
     meta: [
-      { title: "Dashboards Analíticos — SRI/AGU" },
+      { title: "Dashboards Analíticos - SRI/AGU" },
       {
         name: "description",
         content:
           "Painéis analíticos do SRI/AGU: criticidade, fases do playbook, evolução mensal de registros e cumprimento de prazos legais.",
       },
-      { property: "og:title", content: "Dashboards Analíticos — SRI/AGU" },
+      { property: "og:title", content: "Dashboards Analíticos - SRI/AGU" },
       { property: "og:description", content: "Gráficos consolidados de incidentes de segurança e privacidade da AGU." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

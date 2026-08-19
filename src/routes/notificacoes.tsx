@@ -11,9 +11,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/notificacoes")({
   head: () => ({
     meta: [
-      { title: "SLA e Notificações Legais — SRI/AGU" },
+      { title: "SLA e Notificações Legais - SRI/AGU" },
       { name: "description", content: "Controle dos prazos legais de comunicação a Encarregado, CTIR.Gov, ANPD, titulares e Alta Administração." },
-      { property: "og:title", content: "SLA e Notificações Legais — SRI/AGU" },
+      { property: "og:title", content: "SLA e Notificações Legais - SRI/AGU" },
       { property: "og:description", content: "Checklist de prazos legais por incidente com contagem regressiva e confirmação registrada em auditoria." },
     ],
   }),
@@ -88,7 +88,7 @@ function Notificacoes() {
                 </div>
                 <CardTitle className="text-base">
                   <Link to="/incidentes/$id" params={{ id: inc.id }} className="hover:underline">
-                    {inc.codigo} — {String(inc.data["titulo"] ?? "Sem título")}
+                    {inc.codigo} - {String(inc.data["titulo"] ?? "Sem título")}
                   </Link>
                 </CardTitle>
               </CardHeader>

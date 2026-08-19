@@ -14,9 +14,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/incidentes/$id/anpd")({
   head: () => ({
     meta: [
-      { title: "Formulário ANPD (art. 48 LGPD) — SRI/AGU" },
+      { title: "Formulário ANPD (art. 48 LGPD) - SRI/AGU" },
       { name: "description", content: "Comunicação de incidente à ANPD em 8 seções, pré-preenchida a partir das fases 1 a 6 do incidente registrado." },
-      { property: "og:title", content: "Formulário ANPD (art. 48 LGPD) — SRI/AGU" },
+      { property: "og:title", content: "Formulário ANPD (art. 48 LGPD) - SRI/AGU" },
       { property: "og:description", content: "Preenchimento e exportação do formulário de comunicação de incidente à ANPD." },
     ],
   }),
@@ -97,7 +97,7 @@ function FormularioAnpd() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-sm text-muted-foreground">
-              O sistema reaproveita datas, descrição, sistemas afetados, medidas de contenção e canais de comunicação já registrados nas fases 1 a 6 —
+              O sistema reaproveita datas, descrição, sistemas afetados, medidas de contenção e canais de comunicação já registrados nas fases 1 a 6 -
               sem redigitação (RF-041). Estão mapeados {Object.keys(ANPD_PREFILL).length} campos.
             </p>
             <Button disabled={!podeEditar} onClick={() => createAnpdForm(inc.id)}>
@@ -140,7 +140,7 @@ function FormularioAnpd() {
               </CardTitle>
               {secao === 3 && anpd["tipo_comunicacao"] === "Preliminar" && (
                 <Badge variant="outline" className="w-fit border-warning text-warning-foreground">
-                  Comunicação preliminar — complementação obrigatória em até 20 dias úteis
+                  Comunicação preliminar - complementação obrigatória em até 20 dias úteis
                 </Badge>
               )}
             </CardHeader>

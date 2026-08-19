@@ -1,5 +1,5 @@
 /**
- * Store de demonstração (front-end apenas) — persistido em localStorage.
+ * Store de demonstração (front-end apenas) - persistido em localStorage.
  * Quando o Lovable Cloud for ativado, este módulo é substituído por
  * server functions + tabelas com RLS, mantendo a mesma interface.
  */
@@ -519,7 +519,7 @@ function seedIncidents(): Incident[] {
       dpo_acionado: true,
       tipo_incidente: "Phishing / Engenharia social",
     }, false, "privacidade"),
-    mk("ISI-2026-0004", "Simulação tabletop — vazamento via fornecedor", 2, "Alta", "Em andamento", { tipo_incidente: "Vazamento de dados" }, true),
+    mk("ISI-2026-0004", "Simulação tabletop - vazamento via fornecedor", 2, "Alta", "Em andamento", { tipo_incidente: "Vazamento de dados" }, true),
   ];
 }
 
@@ -580,7 +580,7 @@ function seedExercises(): Exercise[] {
       pre: {
         equipes: "ETIR, SOC, Encarregado de Dados, Procuradoria",
         solucoes: "SIEM, EDR, DLP, canal de comunicação seguro",
-        playbook: "PRI/AGU — trilha de vazamento de dados pessoais",
+        playbook: "PRI/AGU - trilha de vazamento de dados pessoais",
         comunicacao: "Alta Administração, ANPD (simulada), titulares (simulado)",
       },
     },
@@ -595,7 +595,7 @@ function seedExercises(): Exercise[] {
       pre: {
         equipes: "SOC, ETIR, Infraestrutura",
         solucoes: "EDR, backup imutável, isolamento de rede",
-        playbook: "PRI/AGU — contenção e recuperação",
+        playbook: "PRI/AGU - contenção e recuperação",
         comunicacao: "CTIR.Gov, Comitê de SI",
       },
       pos: {

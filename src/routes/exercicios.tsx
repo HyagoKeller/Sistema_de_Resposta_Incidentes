@@ -23,9 +23,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/exercicios")({
   head: () => ({
     meta: [
-      { title: "Exercícios de Resposta — SRI/AGU" },
+      { title: "Exercícios de Resposta - SRI/AGU" },
       { name: "description", content: "Planejamento e avaliação de exercícios tabletop, simulados e funcionais de resposta a incidentes na AGU." },
-      { property: "og:title", content: "Exercícios de Resposta — SRI/AGU" },
+      { property: "og:title", content: "Exercícios de Resposta - SRI/AGU" },
       { property: "og:description", content: "Formulários pré e pós-exercício com lições aprendidas e riscos expostos." },
     ],
   }),
