@@ -111,7 +111,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   );
 
   return (
-    <div className="dark min-h-screen bg-background text-foreground">
+    <div className="dark min-h-screen bg-background gov-aurora text-foreground">
       <div className="flex min-h-screen w-full">
         {/* Sidebar desktop */}
         <div className="sticky top-0 hidden h-screen lg:block">{sidebar}</div>
@@ -124,7 +124,8 @@ export function AppShell({ children }: { children: ReactNode }) {
               aria-label="Fechar menu"
               onClick={() => setMobileOpen(false)}
             />
-            <div className="absolute inset-y-0 left-0 shadow-gov-lg">{sidebar}</div>
+            <div className="absolute inset-y-0 left-0 w-[min(17rem,85vw)] max-w-[85vw] overflow-hidden shadow-gov-lg">{sidebar}</div>
+
             <Button
               variant="ghost"
               size="icon"
