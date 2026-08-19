@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuditoriaRouteImport } from './routes/auditoria'
+import { Route as NotificacoesRouteImport } from './routes/notificacoes'
 import { Route as PainelRouteImport } from './routes/painel'
 import { Route as IncidentesIndexRouteImport } from './routes/incidentes.index'
 import { Route as IncidentesNovoRouteImport } from './routes/incidentes.novo'
@@ -25,6 +26,11 @@ const IndexRoute = IndexRouteImport.update({
 const AuditoriaRoute = AuditoriaRouteImport.update({
   id: '/auditoria',
   path: '/auditoria',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotificacoesRoute = NotificacoesRouteImport.update({
+  id: '/notificacoes',
+  path: '/notificacoes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PainelRoute = PainelRouteImport.update({
@@ -56,6 +62,7 @@ const IncidentesIdAnpdRoute = IncidentesIdAnpdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auditoria': typeof AuditoriaRoute
+  '/notificacoes': typeof NotificacoesRoute
   '/painel': typeof PainelRoute
   '/incidentes/novo': typeof IncidentesNovoRoute
   '/incidentes/': typeof IncidentesIndexRoute
@@ -65,6 +72,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auditoria': typeof AuditoriaRoute
+  '/notificacoes': typeof NotificacoesRoute
   '/painel': typeof PainelRoute
   '/incidentes/novo': typeof IncidentesNovoRoute
   '/incidentes': typeof IncidentesIndexRoute
@@ -75,6 +83,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auditoria': typeof AuditoriaRoute
+  '/notificacoes': typeof NotificacoesRoute
   '/painel': typeof PainelRoute
   '/incidentes/novo': typeof IncidentesNovoRoute
   '/incidentes/': typeof IncidentesIndexRoute
@@ -86,6 +95,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auditoria'
+    | '/notificacoes'
     | '/painel'
     | '/incidentes/novo'
     | '/incidentes/'
@@ -95,6 +105,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auditoria'
+    | '/notificacoes'
     | '/painel'
     | '/incidentes/novo'
     | '/incidentes'
@@ -104,6 +115,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/auditoria'
+    | '/notificacoes'
     | '/painel'
     | '/incidentes/novo'
     | '/incidentes/'
@@ -114,6 +126,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuditoriaRoute: typeof AuditoriaRoute
+  NotificacoesRoute: typeof NotificacoesRoute
   PainelRoute: typeof PainelRoute
   IncidentesNovoRoute: typeof IncidentesNovoRoute
   IncidentesIndexRoute: typeof IncidentesIndexRoute
@@ -135,6 +148,13 @@ declare module '@tanstack/react-router' {
       path: '/auditoria'
       fullPath: '/auditoria'
       preLoaderRoute: typeof AuditoriaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notificacoes': {
+      id: '/notificacoes'
+      path: '/notificacoes'
+      fullPath: '/notificacoes'
+      preLoaderRoute: typeof NotificacoesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/painel': {
@@ -178,6 +198,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuditoriaRoute: AuditoriaRoute,
+  NotificacoesRoute: NotificacoesRoute,
   PainelRoute: PainelRoute,
   IncidentesNovoRoute: IncidentesNovoRoute,
   IncidentesIndexRoute: IncidentesIndexRoute,
