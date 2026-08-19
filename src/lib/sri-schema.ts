@@ -312,6 +312,73 @@ export const PHASES: PhaseDef[] = [
         ],
       },
       { id: "chamado_itsm", label: "Nº de chamado no AGU Serviços (referência)", type: "text", help: "Rastreabilidade operacional — sem replicar dados pessoais (RF-061)." },
+
+      /* --- Bloco específico de incidentes de PRIVACIDADE (LGPD) --- */
+      {
+        id: "priv_cat_dados",
+        label: "Categorias de dados pessoais atingidas",
+        type: "textarea",
+        full: true,
+        required: true,
+        showWhen: (d) => d["tipo_registro"] === "privacidade",
+        placeholder: "Ex.: nome, CPF, matrícula SIAPE, endereço, dados de saúde…",
+      },
+      {
+        id: "priv_natureza",
+        label: "Natureza do tratamento afetado",
+        type: "select",
+        required: true,
+        showWhen: (d) => d["tipo_registro"] === "privacidade",
+        options: ["Coleta", "Armazenamento", "Compartilhamento", "Transferência internacional", "Eliminação", "Outro"],
+      },
+      {
+        id: "priv_num_titulares",
+        label: "Número estimado de titulares afetados",
+        type: "number",
+        required: true,
+        showWhen: (d) => d["tipo_registro"] === "privacidade",
+      },
+      {
+        id: "priv_vulneraveis",
+        label: "Há titulares vulneráveis (crianças, adolescentes, idosos)?",
+        type: "bool",
+        required: true,
+        escalation: true,
+        showWhen: (d) => d["tipo_registro"] === "privacidade",
+      },
+      {
+        id: "priv_fonte",
+        label: "Fonte / origem da exposição",
+        type: "text",
+        required: true,
+        showWhen: (d) => d["tipo_registro"] === "privacidade",
+      },
+      {
+        id: "priv_extensao",
+        label: "Extensão da exposição",
+        type: "select",
+        required: true,
+        showWhen: (d) => d["tipo_registro"] === "privacidade",
+        options: ["Interna à unidade", "Interna à AGU", "Terceiro determinado", "Pública / internet", "Indeterminada"],
+      },
+      {
+        id: "priv_risco_preliminar",
+        label: "Risco preliminar aos direitos dos titulares",
+        type: "select",
+        required: true,
+        escalation: true,
+        showWhen: (d) => d["tipo_registro"] === "privacidade",
+        options: ["Baixo", "Médio", "Alto", "Não avaliado"],
+      },
+      {
+        id: "priv_enc_24h",
+        label: "Encarregado comunicado em até 24 horas?",
+        type: "bool",
+        required: true,
+        showWhen: (d) => d["tipo_registro"] === "privacidade",
+        help: "Prazo interno do Playbook AGU para acionamento do Encarregado.",
+      },
+
     ],
   },
   {
@@ -682,3 +749,88 @@ export const ANPD_PREFILL: Record<string, (d: Record<string, unknown>) => unknow
   },
   medidas_preventivas: (d) => d["recomendacoes"],
 };
+
+/* ------------------------------------------------------------------ */
+/* Módulo: SLA e Notificações Legais                                   */
+/* ------------------------------------------------------------------ */
+
+export type TipoRegistro = "seguranca" | "privacidade";
+
+export interface NotificationTarget {
+  id: string;
+  destinatario: string;
+  prazo: string;
+  horas: number;
+  base: string;
+  descricao: string;
+  aplicaA: TipoRegistro[];
+  /** Só é exigível quando a condição do incidente for verdadeira. */
+  condicao?: (d: Record<string, unknown>) => boolean;
+}
+
+export const NOTIFICATION_TARGETS: NotificationTarget[] = [
+  {
+    id: "encarregado",
+    destinatario: "Encarregado de Dados (DPO/AGU)",
+    prazo: "24 horas",
+    horas: 24,
+    base: "Playbook AGU · LGPD art. 41",
+    descricao: "Acionamento imediato do Encarregado sempre que houver indício de dados pessoais.",
+    aplicaA: ["seguranca", "privacidade"],
+    condicao: (d) => d["indicio_dados_pessoais"] === true || d["tipo_registro"] === "privacidade",
+  },
+  {
+    id: "ctir",
+    destinatario: "CTIR.Gov",
+    prazo: "5 dias",
+    horas: 120,
+    base: "IN GSI/PR nº 1/2020 · Decreto nº 10.748/2021",
+    descricao: "Comunicação do incidente de segurança à equipe central de tratamento do governo federal.",
+    aplicaA: ["seguranca", "privacidade"],
+  },
+  {
+    id: "anpd",
+    destinatario: "ANPD",
+    prazo: "3 dias úteis",
+    horas: 120,
+    base: "LGPD art. 48 · Resolução CD/ANPD nº 15/2024",
+    descricao: "Comunicação de incidente com risco relevante aos direitos dos titulares.",
+    aplicaA: ["seguranca", "privacidade"],
+    condicao: (d) => d["notificar_anpd"] === true || d["priv_risco_preliminar"] === "Alto",
+  },
+  {
+    id: "titulares",
+    destinatario: "Titulares afetados",
+    prazo: "3 dias úteis",
+    horas: 120,
+    base: "LGPD art. 48, §1º",
+    descricao: "Comunicação individual aos titulares quando houver risco relevante.",
+    aplicaA: ["privacidade"],
+    condicao: (d) => d["notificar_titulares"] === true || d["priv_risco_preliminar"] === "Alto",
+  },
+  {
+    id: "alta_administracao",
+    destinatario: "Alta Administração / Comitê de SI",
+    prazo: "48 horas",
+    horas: 48,
+    base: "POSIN-AGU",
+    descricao: "Reporte executivo em incidentes de criticidade Alta ou Crítica.",
+    aplicaA: ["seguranca", "privacidade"],
+    condicao: (d) => d["criticidade"] === "Alta" || d["criticidade"] === "Crítica",
+  },
+];
+
+/* ------------------------------------------------------------------ */
+/* Módulo: Exercícios de Resposta                                      */
+/* ------------------------------------------------------------------ */
+
+export const TIPOS_EXERCICIO = ["Tabletop", "Simulado", "Funcional"] as const;
+export type TipoExercicio = (typeof TIPOS_EXERCICIO)[number];
+
+export const TRILHAS_EXERCICIO = [
+  "Vazamento de dados pessoais",
+  "Ransomware",
+  "Indisponibilidade de serviço crítico",
+  "Comprometimento de credenciais",
+  "Incidente com fornecedor",
+];

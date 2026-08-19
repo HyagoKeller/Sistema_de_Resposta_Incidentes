@@ -5,7 +5,7 @@
  */
 
 import { useSyncExternalStore } from "react";
-import type { Criticidade, RoleId } from "./sri-schema";
+import type { Criticidade, RoleId, TipoRegistro, TipoExercicio } from "./sri-schema";
 import { PHASES, ANPD_PREFILL } from "./sri-schema";
 
 export interface AuditEntry {
@@ -25,6 +25,7 @@ export interface Incident {
   faseAtual: number;
   status: "Em andamento" | "Encerrado" | "Fast-track";
   simulacao: boolean;
+  tipo: TipoRegistro;
   criadoEm: string;
   criadoPor: string;
   fastTrack: boolean;
@@ -53,15 +54,49 @@ export interface Session {
   entradaEm: string;
 }
 
+export interface ExercisePre {
+  equipes: string;
+  solucoes: string;
+  playbook: string;
+  comunicacao: string;
+  observacoes?: string;
+}
+
+export interface ExercisePos {
+  dataRealizacao: string;
+  concluido: "Sim" | "Não" | "Parcial";
+  melhorias: string;
+  solucoesEfetivas: string;
+  riscosExpostos: string;
+  observacoes?: string;
+}
+
+export interface Exercise {
+  id: string;
+  tema: string;
+  tipo: TipoExercicio;
+  trilha: string;
+  data: string;
+  responsavel: string;
+  criadoEm: string;
+  pre?: ExercisePre;
+  pos?: ExercisePos;
+}
+
 interface StoreState {
   session: Session | null;
   incidents: Incident[];
+  exercises: Exercise[];
+  /** chave `${incidentId}:${targetId}` -> timestamp da confirmação. */
+  notifDone: Record<string, string>;
   auditoriaGlobal: AuditEntry[];
 }
 
 const KEY = "sri-agu-state-v1";
 
-let state: StoreState = { session: null, incidents: [], auditoriaGlobal: [] };
+const EMPTY: StoreState = { session: null, incidents: [], exercises: [], notifDone: {}, auditoriaGlobal: [] };
+
+let state: StoreState = EMPTY;
 let loaded = false;
 const listeners = new Set<() => void>();
 
@@ -78,13 +113,13 @@ function hydrate() {
   const raw = window.localStorage.getItem(KEY);
   if (raw) {
     try {
-      state = JSON.parse(raw) as StoreState;
+      state = { ...EMPTY, ...(JSON.parse(raw) as StoreState) };
       return;
     } catch {
       /* ignora estado corrompido */
     }
   }
-  state = { session: null, incidents: seedIncidents(), auditoriaGlobal: [] };
+  state = { ...EMPTY, incidents: seedIncidents(), exercises: seedExercises() };
 }
 
 function subscribe(l: () => void) {
@@ -93,7 +128,7 @@ function subscribe(l: () => void) {
   return () => listeners.delete(l);
 }
 
-const serverSnapshot: StoreState = { session: null, incidents: [], auditoriaGlobal: [] };
+const serverSnapshot: StoreState = EMPTY;
 
 export function useStore(): StoreState {
   return useSyncExternalStore(
@@ -116,6 +151,14 @@ export function useIncidents(): Incident[] {
 
 export function useIncident(id: string): Incident | undefined {
   return useStore().incidents.find((i) => i.id === id);
+}
+
+export function useExercises(): Exercise[] {
+  return useStore().exercises;
+}
+
+export function useNotifDone(): Record<string, string> {
+  return useStore().notifDone;
 }
 
 /* ---------------- helpers ---------------- */
@@ -174,22 +217,25 @@ export function logout() {
   emit();
 }
 
-export function createIncident(input: { titulo: string; simulacao: boolean }): Incident {
+export function createIncident(input: { titulo: string; simulacao: boolean; tipo: TipoRegistro }): Incident {
   hydrate();
   const ano = new Date().getFullYear();
   const seq = String(state.incidents.length + 1).padStart(4, "0");
+  const prefixo = input.tipo === "privacidade" ? "IPD" : "ISI";
   const inc: Incident = {
     id: uid(),
-    codigo: `SRI-${ano}-${seq}`,
+    codigo: `${prefixo}-${ano}-${seq}`,
     faseAtual: 1,
     status: "Em andamento",
     simulacao: input.simulacao,
+    tipo: input.tipo,
     criadoEm: new Date().toISOString(),
     criadoPor: state.session?.nome ?? "-",
     fastTrack: false,
     data: {
       titulo: input.titulo,
-      id_incidente: `SRI-${ano}-${seq}`,
+      tipo_registro: input.tipo,
+      id_incidente: `${prefixo}-${ano}-${seq}`,
       dt_registro: nowLocalInput(),
       notificante: state.session?.nome ?? "",
     },
@@ -420,17 +466,20 @@ function seedIncidents(): Incident[] {
     status: Incident["status"],
     extra: Record<string, unknown> = {},
     simulacao = false,
+    tipo: TipoRegistro = "seguranca",
   ): Incident => ({
     id: uid(),
     codigo,
     faseAtual: fase,
     status,
     simulacao,
+    tipo,
     criadoEm: new Date(Date.now() - Math.random() * 20 * 24 * HORA).toISOString(),
     criadoPor: "Central de Serviços",
     fastTrack: false,
     data: {
       id_incidente: codigo,
+      tipo_registro: tipo,
       titulo,
       criticidade,
       dt_registro: nowLocalInput(),
@@ -446,24 +495,116 @@ function seedIncidents(): Incident[] {
   });
 
   return [
-    mk("SRI-2026-0001", "Exposição de planilha com dados de servidores em compartilhamento público", 6, "Crítica", "Em andamento", {
+    mk("IPD-2026-0001", "Exposição de planilha com dados de servidores em compartilhamento público", 6, "Crítica", "Em andamento", {
       indicio_dados_pessoais: true,
       envolve_dados_pessoais: true,
       envolve_dados_sensiveis: true,
       dpo_acionado: true,
       notificar_anpd: true,
       tipo_incidente: "Vazamento de dados",
-    }),
-    mk("SRI-2026-0002", "Tentativa de ransomware contida em estação de trabalho", 5, "Alta", "Em andamento", {
+      notificar_titulares: true,
+      priv_cat_dados: "Nome, CPF, matrícula SIAPE, lotação",
+      priv_num_titulares: 1240,
+      priv_risco_preliminar: "Alto",
+      priv_extensao: "Pública / internet",
+      priv_enc_24h: true,
+    }, false, "privacidade"),
+    mk("ISI-2026-0002", "Tentativa de ransomware contida em estação de trabalho", 5, "Alta", "Em andamento", {
       indicio_dados_pessoais: false,
       tipo_incidente: "Ransomware",
       rto_acordado: 8,
     }),
-    mk("SRI-2026-0003", "Phishing direcionado a advogados públicos", 7, "Média", "Encerrado", {
+    mk("IPD-2026-0003", "Phishing direcionado a advogados públicos", 7, "Média", "Encerrado", {
       indicio_dados_pessoais: true,
       dpo_acionado: true,
       tipo_incidente: "Phishing / Engenharia social",
-    }),
-    mk("SRI-2026-0004", "Simulação tabletop — vazamento via fornecedor", 2, "Alta", "Em andamento", { tipo_incidente: "Vazamento de dados" }, true),
+    }, false, "privacidade"),
+    mk("ISI-2026-0004", "Simulação tabletop — vazamento via fornecedor", 2, "Alta", "Em andamento", { tipo_incidente: "Vazamento de dados" }, true),
+  ];
+}
+
+/* ---------------- Exercícios de resposta ---------------- */
+
+export function createExercise(input: Omit<Exercise, "id" | "criadoEm">): Exercise {
+  hydrate();
+  const ex: Exercise = { ...input, id: uid(), criadoEm: new Date().toISOString() };
+  state = { ...state, exercises: [ex, ...state.exercises] };
+  logGlobal("Exercício planejado", ex.tema, `${ex.tipo} · ${ex.data}`);
+  emit();
+  return ex;
+}
+
+export function saveExercisePre(id: string, pre: ExercisePre) {
+  state = { ...state, exercises: state.exercises.map((e) => (e.id === id ? { ...e, pre } : e)) };
+  logGlobal("Formulário pré-exercício salvo", state.exercises.find((e) => e.id === id)?.tema ?? id);
+  emit();
+}
+
+export function saveExercisePos(id: string, pos: ExercisePos) {
+  state = { ...state, exercises: state.exercises.map((e) => (e.id === id ? { ...e, pos } : e)) };
+  logGlobal("Formulário pós-exercício salvo", state.exercises.find((e) => e.id === id)?.tema ?? id);
+  emit();
+}
+
+export function deleteExercise(id: string) {
+  const alvo = state.exercises.find((e) => e.id === id);
+  state = { ...state, exercises: state.exercises.filter((e) => e.id !== id) };
+  logGlobal("Exercício removido", alvo?.tema ?? id);
+  emit();
+}
+
+/* ---------------- Checklist de notificações legais ---------------- */
+
+export function toggleNotification(incidentId: string, targetId: string, destinatario: string) {
+  hydrate();
+  const key = `${incidentId}:${targetId}`;
+  const next = { ...state.notifDone };
+  if (next[key]) delete next[key];
+  else next[key] = new Date().toISOString();
+  state = { ...state, notifDone: next };
+  const inc = state.incidents.find((i) => i.id === incidentId);
+  logGlobal(next[key] ? "Notificação legal confirmada" : "Confirmação de notificação revertida", `${inc?.codigo ?? incidentId} · ${destinatario}`);
+  emit();
+}
+
+function seedExercises(): Exercise[] {
+  return [
+    {
+      id: uid(),
+      tema: "Vazamento de base de servidores via fornecedor",
+      tipo: "Tabletop",
+      trilha: "Incidente com fornecedor",
+      data: new Date(Date.now() + 12 * 24 * 3600 * 1000).toISOString().slice(0, 10),
+      responsavel: "ETIR Central",
+      criadoEm: new Date().toISOString(),
+      pre: {
+        equipes: "ETIR, SOC, Encarregado de Dados, Procuradoria",
+        solucoes: "SIEM, EDR, DLP, canal de comunicação seguro",
+        playbook: "PRI/AGU — trilha de vazamento de dados pessoais",
+        comunicacao: "Alta Administração, ANPD (simulada), titulares (simulado)",
+      },
+    },
+    {
+      id: uid(),
+      tema: "Ransomware em servidor de arquivos regional",
+      tipo: "Simulado",
+      trilha: "Ransomware",
+      data: new Date(Date.now() - 30 * 24 * 3600 * 1000).toISOString().slice(0, 10),
+      responsavel: "SOC",
+      criadoEm: new Date().toISOString(),
+      pre: {
+        equipes: "SOC, ETIR, Infraestrutura",
+        solucoes: "EDR, backup imutável, isolamento de rede",
+        playbook: "PRI/AGU — contenção e recuperação",
+        comunicacao: "CTIR.Gov, Comitê de SI",
+      },
+      pos: {
+        dataRealizacao: new Date(Date.now() - 30 * 24 * 3600 * 1000).toISOString().slice(0, 10),
+        concluido: "Parcial",
+        melhorias: "Reduzir tempo de isolamento de rede; revisar matriz de acionamento noturno.",
+        solucoesEfetivas: "EDR e backup imutável responderam dentro do RTO acordado.",
+        riscosExpostos: "Dependência de um único analista para acionar o isolamento.",
+      },
+    },
   ];
 }

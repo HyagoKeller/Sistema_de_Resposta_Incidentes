@@ -1,5 +1,5 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { LogOut, ShieldCheck, LayoutDashboard, FolderOpen, ScrollText, Menu } from "lucide-react";
+import { LogOut, ShieldCheck, LayoutDashboard, FolderOpen, ScrollText, Menu, BellRing, CalendarCheck, BarChart4 } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { logout, useSession } from "@/lib/sri-store";
@@ -9,6 +9,9 @@ import { cn } from "@/lib/utils";
 const NAV = [
   { to: "/painel", label: "Painel", icon: LayoutDashboard },
   { to: "/incidentes", label: "Incidentes", icon: FolderOpen },
+  { to: "/notificacoes", label: "SLA e Notificações", icon: BellRing },
+  { to: "/exercicios", label: "Exercícios", icon: CalendarCheck },
+  { to: "/relatorios", label: "Relatórios", icon: BarChart4 },
   { to: "/auditoria", label: "Auditoria", icon: ScrollText },
 ] as const;
 
@@ -43,13 +46,13 @@ export function AppShell({ children }: { children: ReactNode }) {
             </span>
           </Link>
 
-          <nav className="ml-6 hidden items-center gap-1 md:flex" aria-label="Navegação principal">
+          <nav className="ml-6 hidden items-center gap-0.5 lg:flex" aria-label="Navegação principal">
             {NAV.map(({ to, label, icon: Icon }) => (
               <Link
                 key={to}
                 to={to}
                 className={cn(
-                  "flex items-center gap-2 rounded-sm px-3 py-2 text-sm font-semibold text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground",
+                  "flex items-center gap-2 rounded-sm px-2.5 py-2 text-[13px] font-semibold text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground",
                   pathname.startsWith(to) && "bg-accent text-accent-foreground",
                 )}
               >
@@ -76,13 +79,13 @@ export function AppShell({ children }: { children: ReactNode }) {
             >
               <LogOut className="size-4" aria-hidden /> Sair
             </Button>
-            <Button variant="ghost" size="icon" className="md:hidden" aria-label="Abrir menu" onClick={() => setOpen((v) => !v)}>
+            <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Abrir menu" onClick={() => setOpen((v) => !v)}>
               <Menu className="size-5" aria-hidden />
             </Button>
           </div>
         </div>
         {open && (
-          <nav className="border-t border-border px-4 py-2 md:hidden" aria-label="Navegação móvel">
+          <nav className="border-t border-border px-4 py-2 lg:hidden" aria-label="Navegação móvel">
             {NAV.map(({ to, label }) => (
               <Link key={to} to={to} onClick={() => setOpen(false)} className="block rounded-sm px-3 py-2 text-sm font-semibold text-foreground hover:bg-accent">
                 {label}
