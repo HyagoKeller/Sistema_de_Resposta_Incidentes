@@ -78,7 +78,7 @@ function Dashboards() {
 
   const slas = reais.flatMap((i) => computeSlas(i));
   const vencidos = slas.filter((s) => s.status === "vencido").length;
-  const cumpridos = slas.filter((s) => s.status === "cumprido").length;
+  const cumpridos = slas.filter((s) => s.status === "ok").length;
   const emCurso = slas.length - vencidos - cumpridos;
   const aderencia = slas.length ? Math.round((cumpridos / slas.length) * 100) : 100;
 
