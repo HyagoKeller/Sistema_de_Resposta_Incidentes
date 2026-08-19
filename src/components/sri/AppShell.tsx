@@ -57,7 +57,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     >
       <div className="h-1 gov-stripe" aria-hidden />
       <div className={cn("flex items-center gap-2.5 px-4 py-4", collapsed && "justify-center px-2")}>
-        <span className="flex size-9 shrink-0 items-center justify-center rounded-sm bg-primary text-primary-foreground">
+        <span className="flex size-9 shrink-0 items-center justify-center rounded-sm gov-plum text-primary-foreground">
           <ShieldCheck className="size-5" aria-hidden />
         </span>
         {!collapsed && (
@@ -77,18 +77,19 @@ export function AppShell({ children }: { children: ReactNode }) {
               to={to}
               title={collapsed ? label : undefined}
               className={cn(
-                "group relative flex items-center gap-3 rounded-md px-3 py-2.5 text-[13px] font-semibold text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground",
+                "group relative flex items-center gap-3 rounded-md px-3 py-2.5 text-[13px] font-semibold text-foreground/80 transition-colors hover:bg-accent hover:text-accent-foreground",
                 collapsed && "justify-center px-0",
                 active && "bg-accent text-accent-foreground",
               )}
             >
-              {active && <span className="absolute left-0 h-6 w-1 rounded-r-sm bg-warning" aria-hidden />}
-              <Icon className="size-4 shrink-0" aria-hidden />
+              {active && <span className="absolute left-0 h-6 w-1 rounded-r-sm bg-magenta" aria-hidden />}
+              <Icon className={cn("size-4 shrink-0", active && "text-plum")} aria-hidden />
               {!collapsed && <span className="truncate">{label}</span>}
             </Link>
           );
         })}
       </nav>
+
 
       <div className={cn("border-t border-border p-3", collapsed && "px-2")}>
         <div className={cn("flex items-center gap-3 rounded-md bg-accent/40 p-2", collapsed && "justify-center bg-transparent p-0")}>
