@@ -57,37 +57,37 @@ export default function LoginPage() {
       <div className="absolute inset-0 gov-grid opacity-60" aria-hidden />
       <div className="fixed top-0 left-0 right-0 h-1.5 gov-stripe" aria-hidden />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center gap-6 px-5 py-6 lg:gap-10 lg:py-10">
+      <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center gap-5 px-5 py-5 lg:gap-8 lg:py-8">
         {/* Coluna institucional */}
         <section className="text-center">
-          <div className="relative mx-auto inline-flex items-center justify-center overflow-hidden rounded-md bg-white/95 p-4 shadow-gov">
+          <div className="relative mx-auto inline-flex items-center justify-center overflow-hidden rounded-lg bg-white/95 p-2 shadow-gov">
             <img
               src={aguLogo.url}
               alt="Brasão da Advocacia-Geral da União"
-              className="h-16 w-auto sm:h-20"
-              width={160}
-              height={80}
+              className="h-20 w-auto sm:h-24"
+              width={192}
+              height={96}
             />
           </div>
 
-          <div className="mt-4 space-y-1">
-            <p className="text-sm font-bold uppercase tracking-[0.22em] text-primary-foreground/90 sm:text-base">
+          <div className="mt-3 space-y-1">
+            <p className="text-base font-bold uppercase tracking-[0.22em] text-primary-foreground/90 sm:text-lg">
               Advocacia-Geral da União
             </p>
-            <p className="text-xs uppercase tracking-[0.18em] text-primary-foreground/65 sm:text-sm">
+            <p className="text-sm uppercase tracking-[0.18em] text-primary-foreground/65 sm:text-base">
               Departamento de Segurança da Informação
             </p>
           </div>
 
-          <h1 className="mt-4 text-2xl font-extrabold leading-tight tracking-tight text-primary-foreground sm:text-3xl lg:text-4xl">
+          <h1 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight text-primary-foreground sm:text-4xl lg:text-5xl">
             Sistema de Resposta <span className="text-warning">a Incidentes</span>
           </h1>
 
-          <p className="mt-2 max-w-lg text-sm leading-relaxed text-primary-foreground/85 sm:text-base mx-auto">
+          <p className="mt-2 max-w-2xl text-base leading-relaxed text-primary-foreground/85 sm:text-lg mx-auto">
             Registro, condução e documentação de incidentes de Segurança da Informação e Privacidade.
           </p>
 
-          <dl className="mt-5 grid gap-3 sm:grid-cols-3">
+          <dl className="mt-4 grid gap-3 sm:grid-cols-3">
             {[
               { icon: ShieldCheck, k: "7 fases", v: "Checklist validado" },
               { icon: ScrollText, k: "Art. 48", v: "ANPD pré-preenchido" },
@@ -98,8 +98,8 @@ export default function LoginPage() {
                 className="rounded-sm border border-primary-foreground/10 bg-primary-foreground/[0.05] p-2.5 text-center backdrop-blur-sm"
               >
                 <Icon className="mx-auto size-4 text-warning" aria-hidden />
-                <dt className="mt-1 text-xs font-bold text-primary-foreground sm:text-sm">{k}</dt>
-                <dd className="mt-0.5 text-[11px] leading-snug text-primary-foreground/65">{v}</dd>
+                <dt className="mt-1 text-sm font-bold text-primary-foreground">{k}</dt>
+                <dd className="mt-0.5 text-xs leading-snug text-primary-foreground/65">{v}</dd>
               </div>
             ))}
           </dl>
