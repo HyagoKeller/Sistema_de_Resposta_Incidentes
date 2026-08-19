@@ -159,7 +159,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                   <Menu className="size-5" aria-hidden />
                 </Button>
                 <p className="hidden truncate text-sm font-semibold uppercase tracking-wide text-foreground sm:block lg:text-base">
-                  Advocacia-Geral da União <span className="text-foreground/70">· SGE/DTI — Segurança da Informação e Privacidade</span>
+                  Advocacia-Geral da União <span className="text-foreground/70">· SGE/DTI - Segurança da Informação e Privacidade</span>
                 </p>
                 <p className="truncate text-sm font-bold uppercase tracking-wide text-foreground sm:hidden">
                   SRI · AGU

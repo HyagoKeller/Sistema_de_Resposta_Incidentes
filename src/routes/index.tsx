@@ -78,7 +78,7 @@ export default function LoginPage() {
               Secretaria de Governança e Gestão Estratégica
             </p>
             <p className="text-[10px] uppercase tracking-[0.16em] text-primary-foreground/60 sm:text-xs">
-              DTI — Coordenação de Segurança da Informação
+              DTI - Coordenação de Segurança da Informação
             </p>
           </div>
 
