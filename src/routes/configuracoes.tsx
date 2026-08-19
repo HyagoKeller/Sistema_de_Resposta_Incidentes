@@ -159,6 +159,46 @@ function Card({ icon: Icon, titulo, descricao, children, className }: { icon: ty
   );
 }
 
+interface Config {
+  orgao: string;
+  dominio: string;
+  ambiente: string;
+  tenantId: string;
+  clientId: string;
+  googleClientId: string;
+  ssoMicrosoft: boolean;
+  ssoGoogle: boolean;
+  provisionamentoScim: boolean;
+  mfaObrigatorio: boolean;
+  mfaDigitos: number;
+  mfaJanela: number;
+  mfaEmissor: string;
+  codigosBackup: boolean;
+  perfis: Record<Perfil, PerfilCfg>;
+  email: EmailCfg;
+}
+
+const PADRAO: Config = {
+  orgao: "Advocacia-Geral da União",
+  dominio: "agu.gov.br",
+  ambiente: "Homologação",
+  tenantId: "",
+  clientId: "",
+  googleClientId: "",
+  ssoMicrosoft: true,
+  ssoGoogle: true,
+  provisionamentoScim: false,
+  mfaObrigatorio: true,
+  mfaDigitos: 6,
+  mfaJanela: 30,
+  mfaEmissor: "SRI AGU",
+  codigosBackup: true,
+  perfis: PERFIS_PADRAO,
+  email: EMAIL_PADRAO,
+};
+
+const CHAVE = "sri.config";
+
 
 function Toggle({ label, hint, checked, onChange }: { label: string; hint: string; checked: boolean; onChange: (v: boolean) => void }) {
   return (
