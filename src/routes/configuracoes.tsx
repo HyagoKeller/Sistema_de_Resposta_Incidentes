@@ -405,6 +405,174 @@ function ConfiguracoesPage() {
           </Card>
         </div>
 
+        <Card
+          icon={Users}
+          titulo="Perfis de acesso"
+          descricao="Três perfis institucionais com permissões granulares por módulo: leitura, inserção, edição, exclusão, aprovação e exportação."
+        >
+          <div className="flex flex-wrap gap-2">
+            {PERFIS.map((p) => (
+              <button
+                key={p}
+                type="button"
+                onClick={() => setPerfilAtivo(p)}
+                aria-pressed={perfilAtivo === p}
+                className={`rounded-sm border px-3 py-1.5 text-xs font-bold transition ${
+                  perfilAtivo === p ? "gov-plum border-transparent text-primary-foreground" : "border-border bg-accent/20 text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {p}
+              </button>
+            ))}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="ml-auto text-xs"
+              onClick={() => {
+                setPerfil(PERFIS_PADRAO[perfilAtivo]);
+                toast.success(`Perfil ${perfilAtivo} restaurado ao padrão`);
+              }}
+            >
+              <RotateCcw className="size-4" aria-hidden /> Restaurar padrão
+            </Button>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div className="space-y-1.5">
+              <Label htmlFor="desc-perfil" className="text-xs">Descrição do perfil</Label>
+              <Input id="desc-perfil" className="h-9" value={perfil.descricao} onChange={(e) => setPerfil({ descricao: e.target.value })} />
+            </div>
+            <div className="space-y-1.5">
+              <Label className="text-xs">Escopo de atuação</Label>
+              <Select value={perfil.escopo} onValueChange={(v) => setPerfil({ escopo: v as PerfilCfg["escopo"] })}>
+                <SelectTrigger className="h-9">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {["Segurança", "Privacidade", "Segurança e Privacidade"].map((o) => (
+                    <SelectItem key={o} value={o}>
+                      {o}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          <Toggle
+            label="Visualizar dados pessoais sem mascaramento"
+            hint="Acesso a PII é registrado na trilha de auditoria a cada consulta."
+            checked={perfil.verPii}
+            onChange={(v) => setPerfil({ verPii: v })}
+          />
+
+          <div className="overflow-x-auto rounded-sm border border-border/70">
+            <table className="w-full min-w-[640px] text-left text-xs">
+              <thead className="bg-accent/30">
+                <tr>
+                  <th scope="col" className="px-3 py-2 font-bold text-foreground">Módulo</th>
+                  {ACOES.map((a) => (
+                    <th key={a.id} scope="col" className="px-2 py-2 text-center font-semibold text-muted-foreground">
+                      {a.label}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {MODULOS.map((m) => (
+                  <tr key={m.id} className="border-t border-border/60">
+                    <th scope="row" className="px-3 py-2 text-left font-medium text-foreground">{m.label}</th>
+                    {ACOES.map((a) => (
+                      <td key={a.id} className="px-2 py-2 text-center">
+                        <Checkbox
+                          checked={(perfil.permissoes[m.id] ?? []).includes(a.id)}
+                          onCheckedChange={() => togglePermissao(m.id, a.id)}
+                          aria-label={`${a.label} em ${m.label} para ${perfilAtivo}`}
+                        />
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-[11px] text-muted-foreground">
+            Perfis são atribuídos pelos grupos do diretório quando o provisionamento automático (SCIM) está ativo.
+          </p>
+        </Card>
+
+        <Card
+          icon={Mail}
+          titulo="Notificações por e-mail"
+          descricao="Defina o remetente institucional e quais perfis recebem cada evento do fluxo de resposta."
+        >
+          <Toggle
+            label="Habilitar notificações por e-mail"
+            hint="Desativa todos os disparos sem perder a configuração de destinatários."
+            checked={cfg.email.ativo}
+            onChange={(v) => set("email", { ...cfg.email, ativo: v })}
+          />
+
+          <div className="grid gap-3 sm:grid-cols-3">
+            <div className="space-y-1.5">
+              <Label htmlFor="remetente" className="text-xs">Remetente</Label>
+              <Input id="remetente" className="h-9" value={cfg.email.remetente} onChange={(e) => set("email", { ...cfg.email, remetente: e.target.value })} />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="copia" className="text-xs">Cópia permanente</Label>
+              <Input id="copia" className="h-9" value={cfg.email.copiaEncarregado} onChange={(e) => set("email", { ...cfg.email, copiaEncarregado: e.target.value })} />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="antecedencia" className="text-xs">Aviso de SLA (h antes)</Label>
+              <Input
+                id="antecedencia"
+                type="number"
+                min={1}
+                max={48}
+                className="h-9"
+                value={cfg.email.horasAntesSla}
+                onChange={(e) => set("email", { ...cfg.email, horasAntesSla: Number(e.target.value) })}
+              />
+            </div>
+          </div>
+
+          <div className="overflow-x-auto rounded-sm border border-border/70">
+            <table className="w-full min-w-[560px] text-left text-xs">
+              <thead className="bg-accent/30">
+                <tr>
+                  <th scope="col" className="px-3 py-2 font-bold text-foreground">Evento</th>
+                  {PERFIS.map((p) => (
+                    <th key={p} scope="col" className="px-2 py-2 text-center font-semibold text-muted-foreground">{p}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {EVENTOS_EMAIL.map((ev) => (
+                  <tr key={ev.id} className="border-t border-border/60">
+                    <th scope="row" className="px-3 py-2 text-left font-medium text-foreground">
+                      {ev.label}
+                      <span className="block text-[11px] font-normal text-muted-foreground">{ev.hint}</span>
+                    </th>
+                    {PERFIS.map((p) => (
+                      <td key={p} className="px-2 py-2 text-center">
+                        <Checkbox
+                          checked={(cfg.email.eventos[ev.id] ?? []).includes(p)}
+                          disabled={!cfg.email.ativo}
+                          onCheckedChange={() => toggleEvento(ev.id, p)}
+                          aria-label={`Notificar ${p} sobre ${ev.label}`}
+                        />
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <Badge variant="outline" className="text-[10px] uppercase">Ambiente de demonstração - disparos simulados</Badge>
+        </Card>
+
+
+
         <div className="flex justify-end">
           <Button onClick={salvar}>
             <CheckCircle2 className="size-4" aria-hidden /> Salvar configurações
