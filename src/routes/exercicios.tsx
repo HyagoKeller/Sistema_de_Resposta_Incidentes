@@ -1,7 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { CalendarCheck, ClipboardList, Plus, Trash2 } from "lucide-react";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 import { AppShell } from "@/components/sri/AppShell";
+import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -62,70 +65,91 @@ function Exercicios() {
       </div>
 
       {novo && (
-        <Card className="mt-6 max-w-3xl">
-          <CardHeader>
-            <CardTitle className="text-base">Novo exercício</CardTitle>
-          </CardHeader>
-          <CardContent className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2 md:col-span-2">
-              <Label htmlFor="tema">Tema do exercício</Label>
-              <Input id="tema" value={tema} onChange={(e) => setTema(e.target.value)} placeholder="Ex.: Vazamento de base de dados via fornecedor" />
-            </div>
-            <div className="space-y-2">
-              <Label>Tipo</Label>
-              <Select value={tipo} onValueChange={(v) => setTipo(v as TipoExercicio)}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {TIPOS_EXERCICIO.map((t) => (
-                    <SelectItem key={t} value={t}>
-                      {t}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label>Trilha</Label>
-              <Select value={trilha} onValueChange={setTrilha}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {TRILHAS_EXERCICIO.map((t) => (
-                    <SelectItem key={t} value={t}>
-                      {t}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="dt">Data prevista</Label>
-              <Input id="dt" type="date" value={data} onChange={(e) => setData(e.target.value)} />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="resp">Responsável</Label>
-              <Input id="resp" value={responsavel} onChange={(e) => setResponsavel(e.target.value)} placeholder="Ex.: ETIR Central" />
-            </div>
-            <div className="md:col-span-2">
-              <Button
-                disabled={tema.trim().length < 5 || !data}
-                onClick={() => {
-                  createExercise({ tema: tema.trim(), tipo, trilha, data, responsavel: responsavel.trim() || "Não definido" });
-                  setTema("");
-                  setData("");
-                  setResponsavel("");
-                  setNovo(false);
-                }}
-              >
-                Registrar exercício
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+        <div className="mt-6 grid gap-6 lg:grid-cols-[auto_1fr]">
+          <Card className="w-fit">
+            <CardHeader>
+              <CardTitle className="text-base">Calendário de exercícios</CardTitle>
+              <p className="text-xs text-muted-foreground">Selecione a data prevista. Dias destacados já possuem exercícios planejados.</p>
+            </CardHeader>
+            <CardContent>
+              <Calendar
+                mode="single"
+                locale={ptBR}
+                selected={data ? new Date(`${data}T12:00:00`) : undefined}
+                onSelect={(d) => setData(d ? format(d, "yyyy-MM-dd") : "")}
+                modifiers={{ agendado: exercises.filter((e) => e.data).map((e) => new Date(`${e.data}T12:00:00`)) }}
+                modifiersClassNames={{ agendado: "bg-primary/20 text-primary font-bold rounded-sm" }}
+                className="rounded-sm border border-border bg-surface p-3"
+              />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Novo exercício</CardTitle>
+            </CardHeader>
+            <CardContent className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-2 md:col-span-2">
+                <Label htmlFor="tema">Tema do exercício</Label>
+                <Input id="tema" value={tema} onChange={(e) => setTema(e.target.value)} placeholder="Ex.: Vazamento de base de dados via fornecedor" />
+              </div>
+              <div className="space-y-2">
+                <Label>Tipo</Label>
+                <Select value={tipo} onValueChange={(v) => setTipo(v as TipoExercicio)}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {TIPOS_EXERCICIO.map((t) => (
+                      <SelectItem key={t} value={t}>
+                        {t}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label>Trilha</Label>
+                <Select value={trilha} onValueChange={setTrilha}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {TRILHAS_EXERCICIO.map((t) => (
+                      <SelectItem key={t} value={t}>
+                        {t}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="dt">Data prevista</Label>
+                <Input id="dt" type="date" value={data} onChange={(e) => setData(e.target.value)} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="resp">Responsável</Label>
+                <Input id="resp" value={responsavel} onChange={(e) => setResponsavel(e.target.value)} placeholder="Ex.: ETIR Central" />
+              </div>
+              <div className="md:col-span-2">
+                <Button
+                  disabled={tema.trim().length < 5 || !data}
+                  onClick={() => {
+                    createExercise({ tema: tema.trim(), tipo, trilha, data, responsavel: responsavel.trim() || "Não definido" });
+                    setTema("");
+                    setData("");
+                    setResponsavel("");
+                    setNovo(false);
+                  }}
+                >
+                  Registrar exercício
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       )}
+
 
       <div className="mt-6 space-y-4">
         {exercises.length === 0 && <p className="text-sm text-muted-foreground">Nenhum exercício planejado.</p>}
