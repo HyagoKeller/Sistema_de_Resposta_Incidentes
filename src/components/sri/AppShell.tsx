@@ -22,6 +22,7 @@ import agustin from "@/assets/agustin.jpg";
 
 const NAV = [
   { to: "/painel", label: "Painel", icon: LayoutDashboard },
+  { to: "/dashboards", label: "Dashboards", icon: PieChart },
   { to: "/incidentes", label: "Incidentes", icon: FolderOpen },
   { to: "/notificacoes", label: "SLA e Notificações", icon: BellRing },
   { to: "/exercicios", label: "Exercícios", icon: CalendarCheck },
