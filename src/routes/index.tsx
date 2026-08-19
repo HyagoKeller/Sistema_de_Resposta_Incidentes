@@ -74,8 +74,11 @@ export default function LoginPage() {
             <p className="text-sm font-bold uppercase tracking-[0.22em] text-primary-foreground/90 sm:text-base">
               Advocacia-Geral da União
             </p>
-            <p className="text-xs uppercase tracking-[0.18em] text-primary-foreground/65 sm:text-sm">
-              Departamento de Segurança da Informação
+            <p className="text-xs uppercase tracking-[0.18em] text-primary-foreground/75 sm:text-sm">
+              Secretaria de Governança e Gestão Estratégica
+            </p>
+            <p className="text-[10px] uppercase tracking-[0.16em] text-primary-foreground/60 sm:text-xs">
+              DTI — Coordenação de Segurança da Informação
             </p>
           </div>
 
