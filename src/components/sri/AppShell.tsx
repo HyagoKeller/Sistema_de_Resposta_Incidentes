@@ -9,6 +9,7 @@ import {
   BellRing,
   CalendarCheck,
   BarChart4,
+  PieChart,
   PanelLeftClose,
   PanelLeftOpen,
   X,
