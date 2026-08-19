@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { KeyRound, Lock, ShieldCheck, ScrollText, Activity, ArrowRight } from "lucide-react";
+import { KeyRound, ShieldCheck, ScrollText, Activity, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { RoleId } from "@/lib/sri-schema";
 import { login } from "@/lib/sri-store";
@@ -133,21 +133,19 @@ export default function LoginPage() {
                 </Button>
               </div>
 
-              <p className="mt-1 text-[9px] text-primary-foreground/60">
-                OAuth2/OIDC <code className="text-[9px]">openid profile email</code>.
-              </p>
-
-              <div className="mt-1.5 flex flex-wrap items-center justify-between gap-2 border-t border-primary-foreground/10 pt-1 text-[9px] text-primary-foreground/60">
-                <span>Suporte: AGU Serviços</span>
-                <span className="hover:text-primary-foreground/85 cursor-pointer transition-colors">Ajuda</span>
+              <div className="mt-1.5 border-t border-primary-foreground/10 pt-1 text-center text-[9px] text-primary-foreground/60">
+                acesse já:{" "}
+                <a
+                  href="https://aguservicos.agu.gov.br"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-primary-foreground/85"
+                >
+                  aguservicos.agu.gov.br
+                </a>
               </div>
             </div>
           </section>
-
-          <p className="mx-auto mt-1.5 flex max-w-[16rem] items-start justify-center gap-1.5 text-center text-[9px] text-primary-foreground/60">
-            <Lock className="mt-0.5 size-3 shrink-0" aria-hidden />
-            Acesso monitorado em trilha de auditoria.
-          </p>
         </div>
       </div>
     </div>
