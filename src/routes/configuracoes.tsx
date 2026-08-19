@@ -1,64 +1,147 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Server, ShieldCheck, KeyRound, CheckCircle2, Copy, RefreshCw } from "lucide-react";
+import { Server, ShieldCheck, KeyRound, CheckCircle2, Copy, RefreshCw, Users, Mail, RotateCcw } from "lucide-react";
 import { AppShell } from "@/components/sri/AppShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/configuracoes")({
   head: () => ({
     meta: [
       { title: "Configurações - SRI/AGU" },
-      { name: "description", content: "Provisionamento da aplicação SRI/AGU (identidade federada, domínio, ambiente) e configuração do MFA local (TOTP)." },
+      { name: "description", content: "Provisionamento da aplicação SRI/AGU, perfis de acesso granulares, notificações por e-mail e MFA local (TOTP)." },
       { property: "og:title", content: "Configurações do SRI/AGU" },
-      { property: "og:description", content: "Provisione a aplicação e configure o MFA local do Sistema de Resposta a Incidentes." },
+      { property: "og:description", content: "Provisione a aplicação, defina perfis de acesso granulares e as notificações por e-mail do Sistema de Resposta a Incidentes." },
     ],
   }),
   component: ConfiguracoesPage,
 });
 
-interface Config {
-  orgao: string;
-  dominio: string;
-  ambiente: string;
-  tenantId: string;
-  clientId: string;
-  googleClientId: string;
-  ssoMicrosoft: boolean;
-  ssoGoogle: boolean;
-  provisionamentoScim: boolean;
-  mfaObrigatorio: boolean;
-  mfaDigitos: number;
-  mfaJanela: number;
-  mfaEmissor: string;
-  codigosBackup: boolean;
+/* ------------------------------ Perfis de acesso ------------------------------ */
+
+export const PERFIS = ["Administrador", "Gestor", "Colaborador"] as const;
+export type Perfil = (typeof PERFIS)[number];
+
+const MODULOS = [
+  { id: "incidentes", label: "Incidentes (7 fases)" },
+  { id: "anpd", label: "Formulário ANPD" },
+  { id: "notificacoes", label: "SLAs e notificações" },
+  { id: "exercicios", label: "Exercícios de resposta" },
+  { id: "relatorios", label: "Relatórios e exportações" },
+  { id: "dashboards", label: "Dashboards e métricas" },
+  { id: "auditoria", label: "Trilha de auditoria" },
+  { id: "configuracoes", label: "Configurações do sistema" },
+] as const;
+
+const ACOES = [
+  { id: "ler", label: "Leitura" },
+  { id: "inserir", label: "Inserção" },
+  { id: "editar", label: "Edição" },
+  { id: "excluir", label: "Exclusão" },
+  { id: "aprovar", label: "Aprovação" },
+  { id: "exportar", label: "Exportação" },
+] as const;
+
+type Acao = (typeof ACOES)[number]["id"];
+type Permissoes = Record<string, Acao[]>;
+
+interface PerfilCfg {
+  descricao: string;
+  escopo: "Segurança" | "Privacidade" | "Segurança e Privacidade";
+  verPii: boolean;
+  permissoes: Permissoes;
 }
 
-const PADRAO: Config = {
-  orgao: "Advocacia-Geral da União",
-  dominio: "agu.gov.br",
-  ambiente: "Homologação",
-  tenantId: "",
-  clientId: "",
-  googleClientId: "",
-  ssoMicrosoft: true,
-  ssoGoogle: true,
-  provisionamentoScim: false,
-  mfaObrigatorio: true,
-  mfaDigitos: 6,
-  mfaJanela: 30,
-  mfaEmissor: "SRI AGU",
-  codigosBackup: true,
+const TODAS: Acao[] = ACOES.map((a) => a.id);
+
+const PERFIS_PADRAO: Record<Perfil, PerfilCfg> = {
+  Administrador: {
+    descricao: "Acesso integral ao sistema, incluindo provisionamento, perfis e auditoria.",
+    escopo: "Segurança e Privacidade",
+    verPii: true,
+    permissoes: Object.fromEntries(MODULOS.map((m) => [m.id, [...TODAS]])),
+  },
+  Gestor: {
+    descricao: "Conduz e aprova o tratamento na sua trilha (segurança e/ou privacidade).",
+    escopo: "Segurança e Privacidade",
+    verPii: true,
+    permissoes: {
+      incidentes: ["ler", "inserir", "editar", "aprovar", "exportar"],
+      anpd: ["ler", "inserir", "editar", "aprovar", "exportar"],
+      notificacoes: ["ler", "editar", "aprovar"],
+      exercicios: ["ler", "inserir", "editar", "exportar"],
+      relatorios: ["ler", "exportar"],
+      dashboards: ["ler", "exportar"],
+      auditoria: ["ler"],
+      configuracoes: [],
+    },
+  },
+  Colaborador: {
+    descricao: "Registra e atualiza informações designadas, sem aprovar nem excluir.",
+    escopo: "Segurança",
+    verPii: false,
+    permissoes: {
+      incidentes: ["ler", "inserir", "editar"],
+      anpd: ["ler"],
+      notificacoes: ["ler"],
+      exercicios: ["ler", "inserir"],
+      relatorios: ["ler"],
+      dashboards: ["ler"],
+      auditoria: [],
+      configuracoes: [],
+    },
+  },
 };
 
-const CHAVE = "sri.config";
+/* --------------------------- Notificações por e-mail --------------------------- */
 
-function Card({ icon: Icon, titulo, descricao, children }: { icon: typeof Server; titulo: string; descricao: string; children: React.ReactNode }) {
+const EVENTOS_EMAIL = [
+  { id: "novoIncidente", label: "Novo incidente registrado", hint: "Enviado ao abrir um registro em qualquer trilha." },
+  { id: "mudancaFase", label: "Mudança de fase", hint: "Transições do fluxo de 7 fases, inclusive fast-track." },
+  { id: "criticidadeAlta", label: "Criticidade alta ou crítica", hint: "Acionamento imediato do gestor responsável." },
+  { id: "slaRisco", label: "SLA em risco", hint: "Disparado no limiar configurado antes do vencimento." },
+  { id: "slaEstourado", label: "SLA estourado", hint: "Notificação de descumprimento com escalonamento." },
+  { id: "anpd", label: "Comunicação à ANPD", hint: "Prazo de 3 dias úteis e envio do formulário." },
+  { id: "exercicios", label: "Exercícios de resposta", hint: "Lembrete de exercício planejado e pendência de avaliação." },
+  { id: "resumoDiario", label: "Resumo diário", hint: "Consolidado de incidentes abertos e prazos do dia." },
+] as const;
+
+type EventoEmail = (typeof EVENTOS_EMAIL)[number]["id"];
+
+interface EmailCfg {
+  ativo: boolean;
+  remetente: string;
+  copiaEncarregado: string;
+  horasAntesSla: number;
+  eventos: Record<EventoEmail, Perfil[]>;
+}
+
+const EMAIL_PADRAO: EmailCfg = {
+  ativo: true,
+  remetente: "sri@agu.gov.br",
+  copiaEncarregado: "encarregado@agu.gov.br",
+  horasAntesSla: 6,
+  eventos: {
+    novoIncidente: ["Administrador", "Gestor"],
+    mudancaFase: ["Gestor"],
+    criticidadeAlta: ["Administrador", "Gestor"],
+    slaRisco: ["Administrador", "Gestor"],
+    slaEstourado: ["Administrador", "Gestor"],
+    anpd: ["Administrador", "Gestor"],
+    exercicios: ["Gestor", "Colaborador"],
+    resumoDiario: ["Administrador"],
+  },
+};
+
+function Card({ icon: Icon, titulo, descricao, children, className }: { icon: typeof Server; titulo: string; descricao: string; children: React.ReactNode; className?: string }) {
   return (
-    <section className="overflow-hidden rounded-md border border-border bg-surface shadow-gov">
+    <section className={`overflow-hidden rounded-md border border-border bg-surface shadow-gov ${className ?? ""}`}>
       <div className="h-1 gov-stripe" aria-hidden />
       <div className="p-5">
         <div className="flex items-start gap-3">
@@ -75,6 +158,7 @@ function Card({ icon: Icon, titulo, descricao, children }: { icon: typeof Server
     </section>
   );
 }
+
 
 function Toggle({ label, hint, checked, onChange }: { label: string; hint: string; checked: boolean; onChange: (v: boolean) => void }) {
   return (
