@@ -193,7 +193,9 @@
 }
 
 @utility gov-aurora {
-  background:
+  background-color: var(--color-background);
+  background-image:
     radial-gradient(900px 420px at 8% -8%, oklch(0.45 0.16 305 / 0.30), transparent 62%),
     radial-gradient(760px 400px at 100% 0%, oklch(0.45 0.16 348 / 0.22), transparent 60%);
 }
+
