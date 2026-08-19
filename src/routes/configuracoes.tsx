@@ -215,12 +215,19 @@ function Toggle({ label, hint, checked, onChange }: { label: string; hint: strin
 function ConfiguracoesPage() {
   const [cfg, setCfg] = useState<Config>(PADRAO);
   const [segredo, setSegredo] = useState("");
+  const [perfilAtivo, setPerfilAtivo] = useState<Perfil>("Administrador");
 
   useEffect(() => {
     const bruto = localStorage.getItem(CHAVE);
     if (bruto) {
       try {
-        setCfg({ ...PADRAO, ...(JSON.parse(bruto) as Partial<Config>) });
+        const salvo = JSON.parse(bruto) as Partial<Config>;
+        setCfg({
+          ...PADRAO,
+          ...salvo,
+          perfis: { ...PADRAO.perfis, ...(salvo.perfis ?? {}) },
+          email: { ...PADRAO.email, ...(salvo.email ?? {}), eventos: { ...PADRAO.email.eventos, ...(salvo.email?.eventos ?? {}) } },
+        });
       } catch {
         /* ignora configuração inválida */
       }
@@ -228,6 +235,25 @@ function ConfiguracoesPage() {
   }, []);
 
   const set = <K extends keyof Config>(k: K, v: Config[K]) => setCfg((c) => ({ ...c, [k]: v }));
+
+  const perfil = cfg.perfis[perfilAtivo];
+
+  const setPerfil = (patch: Partial<PerfilCfg>) =>
+    setCfg((c) => ({ ...c, perfis: { ...c.perfis, [perfilAtivo]: { ...c.perfis[perfilAtivo], ...patch } } }));
+
+  const togglePermissao = (modulo: string, acao: Acao) => {
+    const atual = perfil.permissoes[modulo] ?? [];
+    const novo = atual.includes(acao) ? atual.filter((a) => a !== acao) : [...atual, acao];
+    setPerfil({ permissoes: { ...perfil.permissoes, [modulo]: novo } });
+  };
+
+  const toggleEvento = (evento: EventoEmail, p: Perfil) =>
+    setCfg((c) => {
+      const atual = c.email.eventos[evento] ?? [];
+      const novo = atual.includes(p) ? atual.filter((x) => x !== p) : [...atual, p];
+      return { ...c, email: { ...c.email, eventos: { ...c.email.eventos, [evento]: novo } } };
+    });
+
 
   const salvar = () => {
     localStorage.setItem(CHAVE, JSON.stringify(cfg));
