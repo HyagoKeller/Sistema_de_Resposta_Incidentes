@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuditoriaRouteImport } from './routes/auditoria'
+import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
 import { Route as DashboardsRouteImport } from './routes/dashboards'
 import { Route as ExerciciosRouteImport } from './routes/exercicios'
 import { Route as NotificacoesRouteImport } from './routes/notificacoes'
@@ -29,6 +30,11 @@ const IndexRoute = IndexRouteImport.update({
 const AuditoriaRoute = AuditoriaRouteImport.update({
   id: '/auditoria',
   path: '/auditoria',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
+  id: '/configuracoes',
+  path: '/configuracoes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardsRoute = DashboardsRouteImport.update({
@@ -80,6 +86,7 @@ const IncidentesIdAnpdRoute = IncidentesIdAnpdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auditoria': typeof AuditoriaRoute
+  '/configuracoes': typeof ConfiguracoesRoute
   '/dashboards': typeof DashboardsRoute
   '/exercicios': typeof ExerciciosRoute
   '/notificacoes': typeof NotificacoesRoute
@@ -93,6 +100,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auditoria': typeof AuditoriaRoute
+  '/configuracoes': typeof ConfiguracoesRoute
   '/dashboards': typeof DashboardsRoute
   '/exercicios': typeof ExerciciosRoute
   '/notificacoes': typeof NotificacoesRoute
@@ -107,6 +115,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auditoria': typeof AuditoriaRoute
+  '/configuracoes': typeof ConfiguracoesRoute
   '/dashboards': typeof DashboardsRoute
   '/exercicios': typeof ExerciciosRoute
   '/notificacoes': typeof NotificacoesRoute
@@ -122,6 +131,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auditoria'
+    | '/configuracoes'
     | '/dashboards'
     | '/exercicios'
     | '/notificacoes'
@@ -135,6 +145,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auditoria'
+    | '/configuracoes'
     | '/dashboards'
     | '/exercicios'
     | '/notificacoes'
@@ -148,6 +159,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/auditoria'
+    | '/configuracoes'
     | '/dashboards'
     | '/exercicios'
     | '/notificacoes'
@@ -162,6 +174,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuditoriaRoute: typeof AuditoriaRoute
+  ConfiguracoesRoute: typeof ConfiguracoesRoute
   DashboardsRoute: typeof DashboardsRoute
   ExerciciosRoute: typeof ExerciciosRoute
   NotificacoesRoute: typeof NotificacoesRoute
@@ -187,6 +200,13 @@ declare module '@tanstack/react-router' {
       path: '/auditoria'
       fullPath: '/auditoria'
       preLoaderRoute: typeof AuditoriaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/configuracoes': {
+      id: '/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/configuracoes'
+      preLoaderRoute: typeof ConfiguracoesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboards': {
@@ -258,6 +278,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuditoriaRoute: AuditoriaRoute,
+  ConfiguracoesRoute: ConfiguracoesRoute,
   DashboardsRoute: DashboardsRoute,
   ExerciciosRoute: ExerciciosRoute,
   NotificacoesRoute: NotificacoesRoute,
