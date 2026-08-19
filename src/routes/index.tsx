@@ -3,7 +3,7 @@ import { KeyRound, Lock, ShieldCheck, ScrollText, Activity, ArrowRight } from "l
 import { Button } from "@/components/ui/button";
 import type { RoleId } from "@/lib/sri-schema";
 import { login } from "@/lib/sri-store";
-import aguLogo from "@/assets/agu-logo.png.asset.json";
+import aguLogo from "@/assets/agu-logo-transparent.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -57,42 +57,37 @@ export default function LoginPage() {
       <div className="absolute inset-0 gov-grid opacity-60" aria-hidden />
       <div className="fixed top-0 left-0 right-0 h-1.5 gov-stripe" aria-hidden />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center gap-5 px-5 py-5 lg:flex-row lg:items-center lg:gap-12 lg:py-10">
+      <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center gap-4 px-5 py-4 lg:gap-6 lg:py-6">
         {/* Coluna institucional */}
-        <section className="text-center lg:text-left">
-          <div className="relative inline-flex overflow-hidden rounded-sm">
+        <section className="text-center">
+          <div className="relative mx-auto inline-flex items-center justify-center overflow-hidden rounded-lg p-2">
             <img
               src={aguLogo.url}
               alt="Brasão da Advocacia-Geral da União"
-              className="h-12 w-auto"
-              width={96}
-              height={48}
-            />
-            <div
-              className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary to-primary-dark"
-              style={{ mixBlendMode: "color", opacity: 0.92 }}
-              aria-hidden
+              className="h-20 w-auto scale-110 drop-shadow-[0_0_6px_rgba(255,255,255,0.55)] sm:h-24"
+              width={192}
+              height={96}
             />
           </div>
 
           <div className="mt-2 space-y-0.5">
-            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary-foreground/80">
+            <p className="text-sm font-bold uppercase tracking-[0.22em] text-primary-foreground/90 sm:text-base">
               Advocacia-Geral da União
             </p>
-            <p className="text-[10px] uppercase tracking-[0.18em] text-primary-foreground/55">
+            <p className="text-xs uppercase tracking-[0.18em] text-primary-foreground/65 sm:text-sm">
               Departamento de Segurança da Informação
             </p>
           </div>
 
-          <h1 className="mt-3 text-xl font-extrabold leading-tight tracking-tight text-primary-foreground sm:text-2xl">
+          <h1 className="mt-2 text-2xl font-extrabold leading-tight tracking-tight text-primary-foreground sm:text-3xl lg:text-4xl">
             Sistema de Resposta <span className="text-warning">a Incidentes</span>
           </h1>
 
-          <p className="mt-1.5 max-w-sm text-xs leading-relaxed text-primary-foreground/80 mx-auto lg:mx-0">
+          <p className="mt-1.5 max-w-xl text-sm leading-relaxed text-primary-foreground/85 sm:text-base mx-auto">
             Registro, condução e documentação de incidentes de Segurança da Informação e Privacidade.
           </p>
 
-          <dl className="mt-4 grid gap-2 sm:grid-cols-3">
+          <dl className="mt-3 grid gap-2 sm:grid-cols-3">
             {[
               { icon: ShieldCheck, k: "7 fases", v: "Checklist validado" },
               { icon: ScrollText, k: "Art. 48", v: "ANPD pré-preenchido" },
@@ -103,7 +98,7 @@ export default function LoginPage() {
                 className="rounded-sm border border-primary-foreground/10 bg-primary-foreground/[0.05] p-2 text-center backdrop-blur-sm"
               >
                 <Icon className="mx-auto size-3.5 text-warning" aria-hidden />
-                <dt className="mt-1 text-[11px] font-bold text-primary-foreground">{k}</dt>
+                <dt className="mt-1 text-xs font-bold text-primary-foreground">{k}</dt>
                 <dd className="mt-0.5 text-[10px] leading-snug text-primary-foreground/65">{v}</dd>
               </div>
             ))}
@@ -111,44 +106,44 @@ export default function LoginPage() {
         </section>
 
         {/* Coluna de acesso */}
-        <div className="mx-auto w-full max-w-xs">
+        <div className="mx-auto w-full max-w-[16rem]">
           <section className="overflow-hidden rounded-md border border-primary-foreground/10 bg-primary-foreground/[0.04] shadow-gov backdrop-blur-md">
             <div className="h-1 gov-stripe" aria-hidden />
-            <div className="p-3.5">
-              <h2 className="text-center text-sm font-bold text-primary-foreground">Acesso institucional</h2>
-              <p className="mt-1 text-center text-[11px] text-primary-foreground/70">
-                Perfil atribuído automaticamente pelo diretório corporativo.
+            <div className="p-2.5">
+              <h2 className="text-center text-[11px] font-bold text-primary-foreground">Acesso institucional</h2>
+              <p className="mt-0.5 text-center text-[9px] text-primary-foreground/70">
+                Perfil atribuído pelo diretório corporativo.
               </p>
 
-              <div className="mt-3 space-y-2">
-                <Button className="w-full" size="sm" onClick={() => entrar("SSO Microsoft 365", "Servidor AGU")}>
-                  <KeyRound className="size-3.5" aria-hidden /> Entrar com Microsoft 365
+              <div className="mt-1.5 space-y-1.5">
+                <Button className="w-full text-xs" size="sm" onClick={() => entrar("SSO Microsoft 365", "Servidor AGU")}>
+                  <KeyRound className="size-3.5" aria-hidden /> Microsoft 365
                   <ArrowRight className="size-3.5" aria-hidden />
                 </Button>
                 <Button
-                  className="w-full bg-white text-black hover:bg-white/90"
+                  className="w-full bg-white text-black hover:bg-white/90 text-xs"
                   size="sm"
                   onClick={() => entrar("SSO Google Workspace", "Servidor AGU")}
                 >
-                  <GoogleIcon className="size-3.5" /> Entrar com Google
+                  <GoogleIcon className="size-3.5" /> Google
                   <ArrowRight className="size-3.5" aria-hidden />
                 </Button>
               </div>
 
-              <p className="mt-2 text-[10px] text-primary-foreground/60">
-                OAuth2/OIDC com escopos mínimos <code className="text-[10px]">openid profile email</code>.
+              <p className="mt-1 text-[9px] text-primary-foreground/60">
+                OAuth2/OIDC <code className="text-[9px]">openid profile email</code>.
               </p>
 
-              <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-primary-foreground/10 pt-2 text-[10px] text-primary-foreground/60">
+              <div className="mt-1.5 flex flex-wrap items-center justify-between gap-2 border-t border-primary-foreground/10 pt-1 text-[9px] text-primary-foreground/60">
                 <span>Suporte: AGU Serviços</span>
                 <span className="hover:text-primary-foreground/85 cursor-pointer transition-colors">Ajuda</span>
               </div>
             </div>
           </section>
 
-          <p className="mx-auto mt-3 flex max-w-xs items-start justify-center gap-1.5 text-center text-[10px] text-primary-foreground/60">
+          <p className="mx-auto mt-1.5 flex max-w-[16rem] items-start justify-center gap-1.5 text-center text-[9px] text-primary-foreground/60">
             <Lock className="mt-0.5 size-3 shrink-0" aria-hidden />
-            Acesso monitorado em trilha de auditoria. Não insira dados reais de titulares.
+            Acesso monitorado em trilha de auditoria.
           </p>
         </div>
       </div>
