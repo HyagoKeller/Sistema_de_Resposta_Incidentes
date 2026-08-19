@@ -1,10 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import { KeyRound, Smartphone, Lock, ShieldCheck, ScrollText, Activity, ArrowRight } from "lucide-react";
+import { KeyRound, Lock, ShieldCheck, ScrollText, Activity, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { RoleId } from "@/lib/sri-schema";
 import { login } from "@/lib/sri-store";
 import aguLogo from "@/assets/agu-logo.png.asset.json";
@@ -13,7 +9,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "SRI/AGU — Acesso ao Sistema de Resposta a Incidentes" },
-      { name: "description", content: "Acesso institucional ao Sistema de Resposta a Incidentes de Segurança da Informação e Privacidade da AGU, com SSO Microsoft 365, Google Workspace e conta local com MFA." },
+      { name: "description", content: "Acesso institucional ao Sistema de Resposta a Incidentes de Segurança da Informação e Privacidade da AGU, com SSO Microsoft 365 e Google Workspace." },
       { property: "og:title", content: "SRI/AGU — Sistema de Resposta a Incidentes" },
       { property: "og:description", content: "Registro, workflow das 7 fases do PRI/AGU e Formulário ANPD (art. 48 LGPD) em um só lugar." },
     ],
@@ -45,14 +41,8 @@ function GoogleIcon({ className }: { className?: string }) {
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const [etapaMfa, setEtapaMfa] = useState(false);
-  const [usuario, setUsuario] = useState("");
-  const [erro, setErro] = useState("");
 
-  const entrar = (
-    metodo: "SSO Microsoft 365" | "SSO Google Workspace" | "Conta local + MFA",
-    nome: string,
-  ) => {
+  const entrar = (metodo: "SSO Microsoft 365" | "SSO Google Workspace", nome: string) => {
     login({
       nome,
       email: `${nome.toLowerCase().replace(/\s+/g, ".")}@agu.gov.br`,
@@ -67,7 +57,7 @@ export default function LoginPage() {
       <div className="absolute inset-0 gov-grid opacity-60" aria-hidden />
       <div className="fixed top-0 left-0 right-0 h-1.5 gov-stripe" aria-hidden />
 
-      <div className="relative z-10 mx-auto grid w-full max-w-5xl flex-1 items-start gap-5 px-5 py-5 lg:grid-cols-2 lg:items-center lg:gap-12 lg:py-10">
+      <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center gap-5 px-5 py-5 lg:flex-row lg:items-center lg:gap-12 lg:py-10">
         {/* Coluna institucional */}
         <section className="text-center lg:text-left">
           <div className="relative inline-flex overflow-hidden rounded-sm">
@@ -130,107 +120,28 @@ export default function LoginPage() {
                 Perfil atribuído automaticamente pelo diretório corporativo.
               </p>
 
-              <Tabs defaultValue="sso" className="mt-3">
-                <TabsList className="grid h-7 w-full grid-cols-2 text-[11px]">
-                  <TabsTrigger value="sso">SSO federado</TabsTrigger>
-                  <TabsTrigger value="local">Conta local</TabsTrigger>
-                </TabsList>
+              <div className="mt-3 space-y-2">
+                <Button className="w-full" size="sm" onClick={() => entrar("SSO Microsoft 365", "Servidor AGU")}>
+                  <KeyRound className="size-3.5" aria-hidden /> Entrar com Microsoft 365
+                  <ArrowRight className="size-3.5" aria-hidden />
+                </Button>
+                <Button
+                  className="w-full bg-white text-black hover:bg-white/90"
+                  size="sm"
+                  onClick={() => entrar("SSO Google Workspace", "Servidor AGU")}
+                >
+                  <GoogleIcon className="size-3.5" /> Entrar com Google
+                  <ArrowRight className="size-3.5" aria-hidden />
+                </Button>
+              </div>
 
-                <TabsContent value="sso" className="space-y-2 pt-2">
-                  <Button className="w-full" size="sm" onClick={() => entrar("SSO Microsoft 365", "Servidor AGU")}>
-                    <KeyRound className="size-3.5" aria-hidden /> Entrar com Microsoft 365
-                    <ArrowRight className="size-3.5" aria-hidden />
-                  </Button>
-                  <Button
-                    className="w-full bg-white text-black hover:bg-white/90"
-                    size="sm"
-                    onClick={() => entrar("SSO Google Workspace", "Servidor AGU")}
-                  >
-                    <GoogleIcon className="size-3.5" /> Entrar com Google Workspace
-                    <ArrowRight className="size-3.5" aria-hidden />
-                  </Button>
-                  <p className="text-[10px] text-primary-foreground/60">
-                    OAuth2/OIDC com escopos mínimos <code className="text-[10px]">openid profile email</code>.
-                  </p>
-                </TabsContent>
-
-                <TabsContent value="local" className="space-y-2 pt-2">
-                  {!etapaMfa ? (
-                    <>
-                      <div className="space-y-1">
-                        <Label htmlFor="usuario" className="text-[11px]">
-                          Usuário Rede AGU
-                        </Label>
-                        <Input
-                          id="usuario"
-                          value={usuario}
-                          onChange={(e) => setUsuario(e.target.value)}
-                          placeholder="ex.: joao.silva"
-                          autoComplete="username"
-                          className="h-8 text-sm"
-                        />
-                      </div>
-                      <div className="space-y-1">
-                        <Label htmlFor="senha" className="text-[11px]">
-                          Senha
-                        </Label>
-                        <Input
-                          id="senha"
-                          type="password"
-                          autoComplete="current-password"
-                          placeholder="••••••••••"
-                          className="h-8 text-sm"
-                        />
-                      </div>
-                      {erro && <p className="text-xs font-medium text-destructive">{erro}</p>}
-                      <Button
-                        className="w-full"
-                        size="sm"
-                        onClick={() => {
-                          if (!usuario.trim()) {
-                            setErro("Informe o usuário para continuar.");
-                            return;
-                          }
-                          setErro("");
-                          setEtapaMfa(true);
-                        }}
-                      >
-                        Continuar
-                      </Button>
-                      <p className="text-[10px] text-primary-foreground/60">
-                        Senha forte, expiração periódica, bloqueio por tentativas e troca obrigatória no primeiro acesso.
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      <div className="flex items-center gap-2 rounded-sm border border-primary-foreground/10 bg-primary-foreground/[0.05] p-2 text-[11px]">
-                        <Smartphone className="size-3.5 text-warning" aria-hidden />
-                        Informe o código de 6 dígitos do seu autenticador (TOTP).
-                      </div>
-                      <div className="space-y-1">
-                        <Label htmlFor="totp" className="text-[11px]">
-                          Código MFA
-                        </Label>
-                        <Input id="totp" inputMode="numeric" maxLength={6} placeholder="000000" className="h-8 text-sm" />
-                      </div>
-                      <Button
-                        className="w-full"
-                        size="sm"
-                        onClick={() => entrar("Conta local + MFA", usuario || "Usuário local")}
-                      >
-                        Validar e entrar
-                      </Button>
-                      <Button variant="ghost" className="w-full" size="sm" onClick={() => setEtapaMfa(false)}>
-                        Voltar
-                      </Button>
-                    </>
-                  )}
-                </TabsContent>
-              </Tabs>
+              <p className="mt-2 text-[10px] text-primary-foreground/60">
+                OAuth2/OIDC com escopos mínimos <code className="text-[10px]">openid profile email</code>.
+              </p>
 
               <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-primary-foreground/10 pt-2 text-[10px] text-primary-foreground/60">
                 <span>Suporte: AGU Serviços</span>
-                <span className="hover:text-primary-foreground/85 cursor-pointer transition-colors">Esqueceu sua senha?</span>
+                <span className="hover:text-primary-foreground/85 cursor-pointer transition-colors">Ajuda</span>
               </div>
             </div>
           </section>
