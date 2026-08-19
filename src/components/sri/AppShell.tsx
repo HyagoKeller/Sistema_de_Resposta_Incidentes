@@ -189,7 +189,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <main className="w-full flex-1 px-4 py-5 sm:px-6 sm:py-6 lg:px-8 2xl:px-12">{children}</main>
 
           <footer className="border-t border-border bg-surface">
-            <div className="mx-auto flex max-w-7xl flex-col gap-3 px-3 py-6 text-xs text-foreground/70 sm:flex-row sm:items-center sm:px-6">
+            <div className="flex w-full flex-col gap-3 px-4 py-6 lg:px-8 2xl:px-12 text-xs text-foreground/70 sm:flex-row sm:items-center sm:px-6">
               <img src={agustin} alt="" aria-hidden className="size-8 shrink-0 rounded-full object-cover opacity-90 ring-2 ring-plum/50" />
               <div className="min-w-0">
                 <p className="font-semibold text-foreground">Advocacia-Geral da União — Sistema de Resposta a Incidentes (SRI)</p>
