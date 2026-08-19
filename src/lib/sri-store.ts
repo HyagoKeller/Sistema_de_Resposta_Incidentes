@@ -50,7 +50,7 @@ export interface Session {
   nome: string;
   email: string;
   papel: RoleId;
-  metodo: "SSO Microsoft 365" | "Conta local + MFA";
+  metodo: "SSO Microsoft 365" | "SSO Google Workspace" | "Conta local + MFA";
   entradaEm: string;
 }
 
