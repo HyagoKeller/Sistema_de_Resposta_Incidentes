@@ -3,7 +3,7 @@ import { KeyRound, Lock, ShieldCheck, ScrollText, Activity, ArrowRight } from "l
 import { Button } from "@/components/ui/button";
 import type { RoleId } from "@/lib/sri-schema";
 import { login } from "@/lib/sri-store";
-import aguLogo from "@/assets/agu-logo-1024.png.asset.json";
+import aguLogo from "@/assets/agu-logo-transparent.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
