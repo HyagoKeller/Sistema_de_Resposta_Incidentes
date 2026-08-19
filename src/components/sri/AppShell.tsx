@@ -140,7 +140,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
         <div className="flex min-w-0 flex-1 flex-col">
           <header className="sticky top-0 z-30 border-b border-border bg-surface/95 backdrop-blur">
-            <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-3">
+            <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-3 py-2.5 sm:gap-3 sm:px-6 sm:py-3">
               <div className="flex min-w-0 items-center gap-2">
                 <Button
                   variant="ghost"
@@ -154,15 +154,18 @@ export function AppShell({ children }: { children: ReactNode }) {
                 <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Abrir menu" onClick={() => setMobileOpen(true)}>
                   <Menu className="size-5" aria-hidden />
                 </Button>
-                <p className="truncate text-[11px] uppercase tracking-widest text-muted-foreground">
+                <p className="hidden truncate text-[11px] uppercase tracking-widest text-foreground/75 sm:block">
                   Advocacia-Geral da União · Segurança da Informação e Privacidade
+                </p>
+                <p className="truncate text-[11px] font-semibold uppercase tracking-widest text-foreground/75 sm:hidden">
+                  SRI · AGU
                 </p>
               </div>
 
-              <div className="flex shrink-0 items-center gap-3">
-                <div className="hidden text-right sm:block">
-                  <p className="text-sm font-semibold text-foreground">{session.nome}</p>
-                  <p className="text-[11px] text-muted-foreground">
+              <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+                <div className="hidden max-w-[14rem] text-right md:block">
+                  <p className="truncate text-sm font-semibold text-foreground">{session.nome}</p>
+                  <p className="truncate text-[11px] text-foreground/70">
                     {papel.nome} · {session.metodo}
                   </p>
                 </div>
@@ -174,18 +177,19 @@ export function AppShell({ children }: { children: ReactNode }) {
                     void navigate({ to: "/", replace: true });
                   }}
                 >
-                  <LogOut className="size-4" aria-hidden /> Sair
+                  <LogOut className="size-4" aria-hidden />
+                  <span className="hidden sm:inline">Sair</span>
                 </Button>
               </div>
             </div>
           </header>
 
-          <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8">{children}</main>
+          <main className="mx-auto w-full max-w-7xl flex-1 px-3 py-6 sm:px-6 sm:py-8 lg:px-8">{children}</main>
 
           <footer className="border-t border-border bg-surface">
-            <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-6 text-xs text-muted-foreground">
-              <img src={agustin} alt="" aria-hidden className="size-8 rounded-full object-cover opacity-80" />
-              <div>
+            <div className="mx-auto flex max-w-7xl flex-col gap-3 px-3 py-6 text-xs text-foreground/70 sm:flex-row sm:items-center sm:px-6">
+              <img src={agustin} alt="" aria-hidden className="size-8 shrink-0 rounded-full object-cover opacity-90 ring-2 ring-plum/50" />
+              <div className="min-w-0">
                 <p className="font-semibold text-foreground">Advocacia-Geral da União — Sistema de Resposta a Incidentes (SRI)</p>
                 <p className="mt-1">
                   Ambiente de demonstração. Base normativa: PRI/AGU, LGPD art. 48 e Resolução CD/ANPD nº 2/2022. Acessibilidade eMAG / WCAG 2.1 AA.
@@ -193,6 +197,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               </div>
             </div>
           </footer>
+
         </div>
       </div>
     </div>
