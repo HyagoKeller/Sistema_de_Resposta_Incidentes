@@ -9,6 +9,7 @@ import {
   BellRing,
   CalendarCheck,
   BarChart4,
+  PieChart,
   PanelLeftClose,
   PanelLeftOpen,
   X,
@@ -22,6 +23,7 @@ import agustin from "@/assets/agustin.jpg";
 
 const NAV = [
   { to: "/painel", label: "Painel", icon: LayoutDashboard },
+  { to: "/dashboards", label: "Dashboards", icon: PieChart },
   { to: "/incidentes", label: "Incidentes", icon: FolderOpen },
   { to: "/notificacoes", label: "SLA e Notificações", icon: BellRing },
   { to: "/exercicios", label: "Exercícios", icon: CalendarCheck },
@@ -154,10 +156,10 @@ export function AppShell({ children }: { children: ReactNode }) {
                 <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Abrir menu" onClick={() => setMobileOpen(true)}>
                   <Menu className="size-5" aria-hidden />
                 </Button>
-                <p className="hidden truncate text-[11px] uppercase tracking-widest text-foreground/75 sm:block">
-                  Advocacia-Geral da União · Segurança da Informação e Privacidade
+                <p className="hidden truncate text-sm font-semibold uppercase tracking-wide text-foreground sm:block lg:text-base">
+                  Advocacia-Geral da União <span className="text-foreground/70">· Segurança da Informação e Privacidade</span>
                 </p>
-                <p className="truncate text-[11px] font-semibold uppercase tracking-widest text-foreground/75 sm:hidden">
+                <p className="truncate text-sm font-bold uppercase tracking-wide text-foreground sm:hidden">
                   SRI · AGU
                 </p>
               </div>
@@ -184,10 +186,10 @@ export function AppShell({ children }: { children: ReactNode }) {
             </div>
           </header>
 
-          <main className="mx-auto w-full max-w-7xl flex-1 px-3 py-6 sm:px-6 sm:py-8 lg:px-8">{children}</main>
+          <main className="w-full flex-1 px-4 py-5 sm:px-6 sm:py-6 lg:px-8 2xl:px-12">{children}</main>
 
           <footer className="border-t border-border bg-surface">
-            <div className="mx-auto flex max-w-7xl flex-col gap-3 px-3 py-6 text-xs text-foreground/70 sm:flex-row sm:items-center sm:px-6">
+            <div className="flex w-full flex-col gap-3 px-4 py-6 lg:px-8 2xl:px-12 text-xs text-foreground/70 sm:flex-row sm:items-center sm:px-6">
               <img src={agustin} alt="" aria-hidden className="size-8 shrink-0 rounded-full object-cover opacity-90 ring-2 ring-plum/50" />
               <div className="min-w-0">
                 <p className="font-semibold text-foreground">Advocacia-Geral da União — Sistema de Resposta a Incidentes (SRI)</p>
