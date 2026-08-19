@@ -43,7 +43,7 @@ function Notificacoes() {
   const incidents = useIncidents();
   const done = useNotifDone();
   const session = useSession();
-  const podeConfirmar = session ? !getRole(session.papel).somenteLeitura : false;
+  const podeConfirmar = session ? getRole(session.papel).editaFases.length > 0 : false;
 
   const abertos = incidents.filter((i) => i.status !== "Encerrado");
 
@@ -88,7 +88,7 @@ function Notificacoes() {
                 </div>
                 <CardTitle className="text-base">
                   <Link to="/incidentes/$id" params={{ id: inc.id }} className="hover:underline">
-                    {inc.codigo} — {inc.titulo}
+                    {inc.codigo} — {String(inc.data["titulo"] ?? "Sem título")}
                   </Link>
                 </CardTitle>
               </CardHeader>
