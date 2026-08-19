@@ -156,10 +156,10 @@ export function AppShell({ children }: { children: ReactNode }) {
                 <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Abrir menu" onClick={() => setMobileOpen(true)}>
                   <Menu className="size-5" aria-hidden />
                 </Button>
-                <p className="hidden truncate text-[11px] uppercase tracking-widest text-foreground/75 sm:block">
-                  Advocacia-Geral da União · Segurança da Informação e Privacidade
+                <p className="hidden truncate text-sm font-semibold uppercase tracking-wide text-foreground sm:block lg:text-base">
+                  Advocacia-Geral da União <span className="text-foreground/70">· Segurança da Informação e Privacidade</span>
                 </p>
-                <p className="truncate text-[11px] font-semibold uppercase tracking-widest text-foreground/75 sm:hidden">
+                <p className="truncate text-sm font-bold uppercase tracking-wide text-foreground sm:hidden">
                   SRI · AGU
                 </p>
               </div>
