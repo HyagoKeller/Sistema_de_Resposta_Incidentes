@@ -5,7 +5,7 @@
  */
 
 import { useSyncExternalStore } from "react";
-import type { Criticidade, RoleId } from "./sri-schema";
+import type { Criticidade, RoleId, TipoRegistro, TipoExercicio } from "./sri-schema";
 import { PHASES, ANPD_PREFILL } from "./sri-schema";
 
 export interface AuditEntry {
@@ -25,6 +25,7 @@ export interface Incident {
   faseAtual: number;
   status: "Em andamento" | "Encerrado" | "Fast-track";
   simulacao: boolean;
+  tipo: TipoRegistro;
   criadoEm: string;
   criadoPor: string;
   fastTrack: boolean;
@@ -53,15 +54,49 @@ export interface Session {
   entradaEm: string;
 }
 
+export interface ExercisePre {
+  equipes: string;
+  solucoes: string;
+  playbook: string;
+  comunicacao: string;
+  observacoes?: string;
+}
+
+export interface ExercisePos {
+  dataRealizacao: string;
+  concluido: "Sim" | "Não" | "Parcial";
+  melhorias: string;
+  solucoesEfetivas: string;
+  riscosExpostos: string;
+  observacoes?: string;
+}
+
+export interface Exercise {
+  id: string;
+  tema: string;
+  tipo: TipoExercicio;
+  trilha: string;
+  data: string;
+  responsavel: string;
+  criadoEm: string;
+  pre?: ExercisePre;
+  pos?: ExercisePos;
+}
+
 interface StoreState {
   session: Session | null;
   incidents: Incident[];
+  exercises: Exercise[];
+  /** chave `${incidentId}:${targetId}` -> timestamp da confirmação. */
+  notifDone: Record<string, string>;
   auditoriaGlobal: AuditEntry[];
 }
 
 const KEY = "sri-agu-state-v1";
 
-let state: StoreState = { session: null, incidents: [], auditoriaGlobal: [] };
+const EMPTY: StoreState = { session: null, incidents: [], exercises: [], notifDone: {}, auditoriaGlobal: [] };
+
+let state: StoreState = EMPTY;
 let loaded = false;
 const listeners = new Set<() => void>();
 
@@ -78,13 +113,13 @@ function hydrate() {
   const raw = window.localStorage.getItem(KEY);
   if (raw) {
     try {
-      state = JSON.parse(raw) as StoreState;
+      state = { ...EMPTY, ...(JSON.parse(raw) as StoreState) };
       return;
     } catch {
       /* ignora estado corrompido */
     }
   }
-  state = { session: null, incidents: seedIncidents(), auditoriaGlobal: [] };
+  state = { ...EMPTY, incidents: seedIncidents(), exercises: seedExercises() };
 }
 
 function subscribe(l: () => void) {
@@ -93,7 +128,7 @@ function subscribe(l: () => void) {
   return () => listeners.delete(l);
 }
 
-const serverSnapshot: StoreState = { session: null, incidents: [], auditoriaGlobal: [] };
+const serverSnapshot: StoreState = EMPTY;
 
 export function useStore(): StoreState {
   return useSyncExternalStore(
@@ -116,6 +151,14 @@ export function useIncidents(): Incident[] {
 
 export function useIncident(id: string): Incident | undefined {
   return useStore().incidents.find((i) => i.id === id);
+}
+
+export function useExercises(): Exercise[] {
+  return useStore().exercises;
+}
+
+export function useNotifDone(): Record<string, string> {
+  return useStore().notifDone;
 }
 
 /* ---------------- helpers ---------------- */
@@ -174,22 +217,25 @@ export function logout() {
   emit();
 }
 
-export function createIncident(input: { titulo: string; simulacao: boolean }): Incident {
+export function createIncident(input: { titulo: string; simulacao: boolean; tipo: TipoRegistro }): Incident {
   hydrate();
   const ano = new Date().getFullYear();
   const seq = String(state.incidents.length + 1).padStart(4, "0");
+  const prefixo = input.tipo === "privacidade" ? "IPD" : "ISI";
   const inc: Incident = {
     id: uid(),
-    codigo: `SRI-${ano}-${seq}`,
+    codigo: `${prefixo}-${ano}-${seq}`,
     faseAtual: 1,
     status: "Em andamento",
     simulacao: input.simulacao,
+    tipo: input.tipo,
     criadoEm: new Date().toISOString(),
     criadoPor: state.session?.nome ?? "-",
     fastTrack: false,
     data: {
       titulo: input.titulo,
-      id_incidente: `SRI-${ano}-${seq}`,
+      tipo_registro: input.tipo,
+      id_incidente: `${prefixo}-${ano}-${seq}`,
       dt_registro: nowLocalInput(),
       notificante: state.session?.nome ?? "",
     },
@@ -420,17 +466,20 @@ function seedIncidents(): Incident[] {
     status: Incident["status"],
     extra: Record<string, unknown> = {},
     simulacao = false,
+    tipo: TipoRegistro = "seguranca",
   ): Incident => ({
     id: uid(),
     codigo,
     faseAtual: fase,
     status,
     simulacao,
+    tipo,
     criadoEm: new Date(Date.now() - Math.random() * 20 * 24 * HORA).toISOString(),
     criadoPor: "Central de Serviços",
     fastTrack: false,
     data: {
       id_incidente: codigo,
+      tipo_registro: tipo,
       titulo,
       criticidade,
       dt_registro: nowLocalInput(),
