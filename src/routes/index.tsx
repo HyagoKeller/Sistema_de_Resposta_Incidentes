@@ -106,22 +106,22 @@ export default function LoginPage() {
         </section>
 
         {/* Coluna de acesso */}
-        <div className="mx-auto w-full max-w-[18rem]">
+        <div className="mx-auto w-full max-w-[16rem]">
           <section className="overflow-hidden rounded-md border border-primary-foreground/10 bg-primary-foreground/[0.04] shadow-gov backdrop-blur-md">
             <div className="h-1 gov-stripe" aria-hidden />
-            <div className="p-3">
-              <h2 className="text-center text-xs font-bold text-primary-foreground">Acesso institucional</h2>
-              <p className="mt-0.5 text-center text-[10px] text-primary-foreground/70">
+            <div className="p-2.5">
+              <h2 className="text-center text-[11px] font-bold text-primary-foreground">Acesso institucional</h2>
+              <p className="mt-0.5 text-center text-[9px] text-primary-foreground/70">
                 Perfil atribuído pelo diretório corporativo.
               </p>
 
-              <div className="mt-2 space-y-1.5">
-                <Button className="w-full" size="sm" onClick={() => entrar("SSO Microsoft 365", "Servidor AGU")}>
+              <div className="mt-1.5 space-y-1.5">
+                <Button className="w-full text-xs" size="sm" onClick={() => entrar("SSO Microsoft 365", "Servidor AGU")}>
                   <KeyRound className="size-3.5" aria-hidden /> Microsoft 365
                   <ArrowRight className="size-3.5" aria-hidden />
                 </Button>
                 <Button
-                  className="w-full bg-white text-black hover:bg-white/90"
+                  className="w-full bg-white text-black hover:bg-white/90 text-xs"
                   size="sm"
                   onClick={() => entrar("SSO Google Workspace", "Servidor AGU")}
                 >
@@ -130,18 +130,18 @@ export default function LoginPage() {
                 </Button>
               </div>
 
-              <p className="mt-1.5 text-[10px] text-primary-foreground/60">
-                OAuth2/OIDC <code className="text-[10px]">openid profile email</code>.
+              <p className="mt-1 text-[9px] text-primary-foreground/60">
+                OAuth2/OIDC <code className="text-[9px]">openid profile email</code>.
               </p>
 
-              <div className="mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-primary-foreground/10 pt-1.5 text-[10px] text-primary-foreground/60">
+              <div className="mt-1.5 flex flex-wrap items-center justify-between gap-2 border-t border-primary-foreground/10 pt-1 text-[9px] text-primary-foreground/60">
                 <span>Suporte: AGU Serviços</span>
                 <span className="hover:text-primary-foreground/85 cursor-pointer transition-colors">Ajuda</span>
               </div>
             </div>
           </section>
 
-          <p className="mx-auto mt-2 flex max-w-[18rem] items-start justify-center gap-1.5 text-center text-[10px] text-primary-foreground/60">
+          <p className="mx-auto mt-1.5 flex max-w-[16rem] items-start justify-center gap-1.5 text-center text-[9px] text-primary-foreground/60">
             <Lock className="mt-0.5 size-3 shrink-0" aria-hidden />
             Acesso monitorado em trilha de auditoria.
           </p>
