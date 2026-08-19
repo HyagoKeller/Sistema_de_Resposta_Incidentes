@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { KeyRound, Lock, ShieldCheck, ScrollText, Activity, ArrowRight } from "lucide-react";
+import { KeyRound, ShieldCheck, ScrollText, Activity, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { RoleId } from "@/lib/sri-schema";
 import { login } from "@/lib/sri-store";
