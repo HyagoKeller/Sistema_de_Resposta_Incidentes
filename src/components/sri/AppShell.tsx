@@ -12,6 +12,7 @@ import {
   PieChart,
   PanelLeftClose,
   PanelLeftOpen,
+  Settings,
   X,
 } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
@@ -29,6 +30,7 @@ const NAV = [
   { to: "/exercicios", label: "Exercícios", icon: CalendarCheck },
   { to: "/relatorios", label: "Relatórios", icon: BarChart4 },
   { to: "/auditoria", label: "Auditoria", icon: ScrollText },
+  { to: "/configuracoes", label: "Configurações", icon: Settings },
 ] as const;
 
 export function AppShell({ children }: { children: ReactNode }) {
