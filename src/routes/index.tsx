@@ -60,11 +60,11 @@ export default function LoginPage() {
       <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center gap-4 px-5 py-4 lg:gap-6 lg:py-6">
         {/* Coluna institucional */}
         <section className="text-center">
-          <div className="relative mx-auto inline-flex items-center justify-center overflow-hidden rounded-lg bg-white/95 p-2 shadow-gov">
+          <div className="relative mx-auto inline-flex items-center justify-center overflow-hidden rounded-lg p-2">
             <img
               src={aguLogo.url}
               alt="Brasão da Advocacia-Geral da União"
-              className="h-20 w-auto scale-110 sm:h-24"
+              className="h-20 w-auto scale-110 drop-shadow-[0_0_6px_rgba(255,255,255,0.55)] sm:h-24"
               width={192}
               height={96}
             />
