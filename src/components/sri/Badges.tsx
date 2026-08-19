@@ -30,3 +30,17 @@ export function SlaBadge({ status }: { status: "ok" | "pendente" | "vencido" }) 
   const label = { ok: "Cumprido", pendente: "Em prazo", vencido: "Vencido" }[status];
   return <span className={cn("rounded-sm px-2 py-0.5 text-[11px] font-bold uppercase", map[status])}>{label}</span>;
 }
+
+export function TipoBadge({ tipo }: { tipo: "seguranca" | "privacidade" }) {
+  const priv = tipo === "privacidade";
+  return (
+    <span
+      className={cn(
+        "rounded-sm px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide",
+        priv ? "bg-info/15 text-info" : "bg-primary/10 text-primary",
+      )}
+    >
+      {priv ? "Privacidade" : "Segurança"}
+    </span>
+  );
+}
