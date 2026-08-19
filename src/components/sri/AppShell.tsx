@@ -12,6 +12,7 @@ import {
   PieChart,
   PanelLeftClose,
   PanelLeftOpen,
+  Settings,
   X,
 } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
